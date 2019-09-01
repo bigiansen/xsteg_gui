@@ -24,6 +24,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE 	${PROJECT_BINARY_DIR}/output/lib/sha
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE 	${PROJECT_BINARY_DIR}/output/lib/static)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE 	${PROJECT_BINARY_DIR}/output/bin/xsteg_gui)
 
+add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD)
+
 add_subdirectory("third-party")
 add_subdirectory("lib")
 add_subdirectory("bin")
