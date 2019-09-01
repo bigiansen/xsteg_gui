@@ -1,0 +1,6 @@
+[submodule "lib/xsteg"]
+	path = lib/xsteg
+	url = https://github.com/bigiansen/xsteg
+[submodule "third-party/glfw"]
+	path = third-party/glfw
+	url = https://github.com/bigiansen/glfw
