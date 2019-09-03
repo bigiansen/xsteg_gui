@@ -15,8 +15,11 @@ class imgui_ctx
 {
 private:
     window* _wnd;
+    ImVec4 _bg_color;
+    ImGuiIO* _io;
 
 public:
     imgui_ctx(window*);
+    void set_background_color(ImVec4 color);
     void start(std::function<void(void)> main_loop);
 };

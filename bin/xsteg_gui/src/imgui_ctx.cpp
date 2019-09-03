@@ -8,18 +8,23 @@ imgui_ctx::imgui_ctx(window* wnd)
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    _io = &ImGui::GetIO();
 
     ImGui::StyleColorsDark();
 
     ImGui_ImplGlfw_InitForOpenGL(_wnd->wnd_ptr(), true);
     ImGui_ImplOpenGL3_Init(glsl_version.c_str());
+
+    _bg_color = ImVec4(0.20f, 0.25f, 0.30f, 1.00f);
+}
+
+void imgui_ctx::set_background_color(ImVec4 color)
+{
+    _bg_color = color;
 }
 
 void imgui_ctx::start(std::function<void(void)> main_loop)
 {
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
     while (!_wnd->should_close())
     {
         glfwPollEvents();
@@ -36,7 +41,7 @@ void imgui_ctx::start(std::function<void(void)> main_loop)
         int display_w, display_h;
         glfwGetFramebufferSize(_wnd->wnd_ptr(), &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+        glClearColor(_bg_color.x, _bg_color.y, _bg_color.z, _bg_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

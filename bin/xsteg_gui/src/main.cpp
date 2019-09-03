@@ -18,13 +18,14 @@ int main(int, char**)
     window_opengl_hints hints;
     hints.ver_major = 3;
     hints.ver_minor = 0;
-    hints.aa_samples = 4;
+    hints.aa_samples = 1;
     window wnd(800, 600, "TITLE", hints);
     
     imgui_ctx ctx(&wnd);
     ctx.start([&]()
     {
-        // "Main" loop
+        ImGui::Begin("Hello, world!"); 
+        ImGui::End();
     });
 
     return 0;

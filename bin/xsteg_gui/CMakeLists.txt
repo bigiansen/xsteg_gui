@@ -1,5 +1,6 @@
 SET(XSTEG_GUI_SOURCES
 	src/imgui_ctx.cpp
+	src/imgui_window.cpp
 	src/main.cpp
 	src/window.cpp
 )

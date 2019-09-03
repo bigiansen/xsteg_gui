@@ -21,7 +21,7 @@ window::window(
     if (!glfwInit())
         std::exit(-1);
 
-    glfwWindowHint(GLFW_SAMPLES, hints.aa_samples);
+    //glfwWindowHint(GLFW_SAMPLES, hints.aa_samples);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, hints.ver_major);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, hints.ver_minor);
     _wndptr = glfwCreateWindow(sz_x, sz_y, title.c_str(), NULL, NULL);
@@ -34,6 +34,7 @@ window::window(
     }
 
     glfwMakeContextCurrent(_wndptr);
+    glfwSwapInterval(1);
     glfwSetFramebufferSizeCallback(_wndptr, &glfw_resize_callback);
     glfwSetErrorCallback(glfw_error_callback);
 
