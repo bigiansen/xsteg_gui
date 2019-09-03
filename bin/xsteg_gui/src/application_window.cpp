@@ -28,10 +28,14 @@ void application_window::update()
     bool genmaps_selected = false;
     ImGui::Begin("ApplicationWindow", NULL, flags);
     {
+        static const int ITEM_COUNT = 3;
+
         ImGui::SetWindowPos(ImVec2(0, 0));
-        encode_selected = ImGui::Button("Encode"); ImGui::SameLine();
-        decode_selected = ImGui::Button("Decode"); ImGui::SameLine();
-        genmaps_selected = ImGui::Button("Generate maps");
+        encode_selected = ImGui::Button("Encode", ImVec2((x / ITEM_COUNT)*0.95F, 0)); 
+        ImGui::SameLine();
+        decode_selected = ImGui::Button("Decode", ImVec2((x / ITEM_COUNT)*0.95F, 0)); 
+        ImGui::SameLine();
+        genmaps_selected = ImGui::Button("Generate maps", ImVec2((x / ITEM_COUNT)*0.985F, 0)); 
     }
     ImGui::End();
 

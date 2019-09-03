@@ -27,5 +27,10 @@ void encode_window::update_proc()
     );
     ImGui::SameLine();
     btn_browse = ImGui::Button("Browse");
+    ImGui::Separator();
     btn_edit_thresh = ImGui::Button("Edit thresholds");
+    ImGui::SameLine();
+    ImGui::Spacing();
+    ImGui::SameLine();
+    ImGui::Text("Threshold count: %d", 0);
 }
