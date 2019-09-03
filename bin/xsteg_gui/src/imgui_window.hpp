@@ -15,7 +15,7 @@ protected:
     std::string _title;
     std::optional<ImVec4> _bg_color;
     std::optional<ImVec4> _txt_color;
-    bool _hidden = false;
+    bool _show = false;
     std::map<std::string, std::unique_ptr<imgui_window>> _children;
 
 public:

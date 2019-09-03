@@ -22,13 +22,13 @@ void imgui_window::set_text_color(ImVec4 color)
     _txt_color = color;
 }
 
-void imgui_window::show() { _hidden = false; }
+void imgui_window::show() { _show = true; }
 
-void imgui_window::hide() { _hidden = true; }
+void imgui_window::hide() { _show = false; }
 
 void imgui_window::update()
 {
-    if(!_hidden)
+    if(_show)
     {
         int pop_count = 0;
         if(_bg_color)
@@ -43,7 +43,7 @@ void imgui_window::update()
             ++pop_count;
         }
 
-        ImGui::Begin(_title.c_str(), NULL);
+        ImGui::Begin(_title.c_str(), &_show);
         update_proc();
         ImGui::End();
         
