@@ -24,6 +24,7 @@ window::window(
     //glfwWindowHint(GLFW_SAMPLES, hints.aa_samples);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, hints.ver_major);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, hints.ver_minor);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     _wndptr = glfwCreateWindow(sz_x, sz_y, title.c_str(), NULL, NULL);
 
     if (_wndptr == NULL) 
@@ -55,4 +56,11 @@ bool window::should_close()
 GLFWwindow* window::wnd_ptr()
 {
     return _wndptr;
+}
+
+std::pair<int, int> window::get_window_size()
+{
+    int x, y;
+    glfwGetWindowSize(_wndptr, &x, &y);
+    return std::make_pair(x, y);
 }

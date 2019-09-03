@@ -12,20 +12,22 @@
 
 #include "window.hpp"
 #include "imgui_ctx.hpp"
+#include "application_window.hpp"
 
 int main(int, char**)
 {
     window_opengl_hints hints;
     hints.ver_major = 3;
-    hints.ver_minor = 0;
+    hints.ver_minor = 3;
     hints.aa_samples = 1;
     window wnd(800, 600, "TITLE", hints);
     
     imgui_ctx ctx(&wnd);
+    glfwSetWindowPos(wnd.wnd_ptr(), 2200, 400);
+    application_window appwnd(&wnd);
     ctx.start([&]()
     {
-        ImGui::Begin("Hello, world!"); 
-        ImGui::End();
+        appwnd.update();
     });
 
     return 0;

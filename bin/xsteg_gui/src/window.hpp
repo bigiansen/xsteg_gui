@@ -4,11 +4,12 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <utility>
 
 struct window_opengl_hints
 {
     int ver_major = 3;
-    int ver_minor = 0;
+    int ver_minor = 3;
     int aa_samples = 1;
 
     constexpr window_opengl_hints() {}
@@ -28,4 +29,6 @@ public:
 
     bool should_close();
     GLFWwindow* wnd_ptr();
+
+    std::pair<int, int> get_window_size();
 };
