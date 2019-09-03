@@ -23,9 +23,9 @@ void application_window::update()
         | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize
         | ImGuiWindowFlags_::ImGuiWindowFlags_NoScrollbar;
     
-    bool encode_selected = false;
-    bool decode_selected = false;
-    bool genmaps_selected = false;
+    static bool encode_selected = false;
+    static bool decode_selected = false;
+    static bool genmaps_selected = false;
     ImGui::Begin("ApplicationWindow", NULL, flags);
     {
         static const int ITEM_COUNT = 3;

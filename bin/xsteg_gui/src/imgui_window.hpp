@@ -33,8 +33,8 @@ public:
     void set_background_color(ImVec4 color);
     void set_text_color(ImVec4 color);
 
-    void show();
-    void hide();
+    virtual void show();
+    virtual void hide();
 
     void update();
 
