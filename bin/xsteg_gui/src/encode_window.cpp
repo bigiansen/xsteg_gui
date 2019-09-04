@@ -5,6 +5,27 @@
 
 #include "threshold_editor.hpp"
 
+#ifdef _WIN32
+    #define GLFW_EXPOSE_NATIVE_WIN32
+    #include <GLFW/glfw3native.h>
+    #include <Windows.h>
+    #include <commdlg.h>
+
+    std::string openfile_diag(window* wnd)
+    {
+        std::string result(512, 0);
+        OPENFILENAMEA fdata;
+        ZeroMemory(&fdata, sizeof(OPENFILENAMEA));
+        fdata.lStructSize = sizeof(OPENFILENAMEA);
+        fdata.hwndOwner = glfwGetWin32Window(wnd->wnd_ptr());
+        fdata.lpstrFile = result.data();
+        fdata.nMaxFile = result.size();
+        fdata.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+        GetOpenFileNameA(&fdata);
+        return result;
+    }
+#endif
+
 encode_window::encode_window(window* wnd, const std::string& name)
     : imgui_window(wnd, name)
 { }
@@ -21,9 +42,6 @@ void encode_window::show()
 
 void encode_window::update_proc()
 {
-    static std::string input_image(512, '\0');
-    static std::string output_image(512, '\0');
-    static std::string input_data(512, '\0');
     static bool btn_browse_input = false;
     static bool btn_browse_output = false;
     static bool btn_browse_data = false;
@@ -39,19 +57,26 @@ void encode_window::update_proc()
     }*/
     
     // **** Input image path ****
-    ImGui::InputTextWithHint("##ii", "Input image path", input_image.data(), input_image.size());
+    ImGui::InputTextWithHint("##ii", "Input image path", _input_image.data(), _input_image.size() + 1);    
+#ifdef _WIN32
     ImGui::SameLine();
     btn_browse_input = ImGui::Button("Browse...");
+    if(btn_browse_input) { _input_image = openfile_diag(_wnd); }
+#endif
 
     // **** Output image path ****
-    ImGui::InputTextWithHint("##oi", "Output image path", output_image.data(), output_image.size());
+    ImGui::InputTextWithHint("##oi", "Output image path", _output_image.data(), _output_image.size() + 1);
+#ifdef _WIN32
     ImGui::SameLine();
     btn_browse_output = ImGui::Button("Browse...");
+#endif
 
     // **** Input data file ****
-    ImGui::InputTextWithHint("##df", "Input data file", input_data.data(), input_data.size());
+    ImGui::InputTextWithHint("##df", "Input data file", _input_data.data(), _input_data.size() + 1);
+#ifdef _WIN32
     ImGui::SameLine();
     btn_browse_data = ImGui::Button("Browse...");
+#endif
 
     ImGui::Separator();
     ImGui::Spacing();
