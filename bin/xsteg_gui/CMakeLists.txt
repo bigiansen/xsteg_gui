@@ -3,6 +3,7 @@ SET(XSTEG_GUI_SOURCES
 	src/encode_window.cpp
 	src/imgui_ctx.cpp
 	src/imgui_window.cpp
+	src/threshold_editor.cpp
 	src/main.cpp
 	src/window.cpp
 )
