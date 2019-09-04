@@ -4,30 +4,32 @@
 #include <optional>
 #include <map>
 #include <memory>
+#include <vector>
 
 #include <imgui.h>
 #include "window.hpp"
 
+class application_window;
 class imgui_window
 {
 protected:
-    window* _wnd = nullptr;
+    application_window* _appwnd = nullptr;
     std::string _title;
     std::optional<ImVec4> _bg_color;
     std::optional<ImVec4> _txt_color;
     bool _show = false;
-    std::map<std::string, std::unique_ptr<imgui_window>> _children;
+    std::vector<std::unique_ptr<imgui_window>> _children;
 
 public:
-    imgui_window(window*, const std::string& title);
-    imgui_window(window*, std::string&& title);
+    imgui_window(application_window*, const std::string& title);
+    imgui_window(application_window*, std::string&& title);
 
-    template<typename TWindow>
-    TWindow* add_child_window(const std::string& name)
+    template<typename TWin, typename... TArgs>
+    TWin* add_child_window(TArgs... args)
     {
-        static_assert(std::is_base_of_v<imgui_window, std::decay_t<TWindow>>);
-        auto [iter, ok] = _children.emplace(name, std::make_unique<TWindow>(_wnd, name));
-        return iter->second.get();
+        static_assert(std::is_base_of_v<imgui_window, std::decay_t<TWin>>);
+        _children.push_back(std::make_unique<TWin>(args...));
+        return dynamic_cast<TWin*>(_children.back().get());
     }
 
     void set_background_color(ImVec4 color);

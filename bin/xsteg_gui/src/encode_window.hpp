@@ -12,8 +12,8 @@ private:
     std::string _input_data = std::string(512, '\0');
 
 public:
-    encode_window(window*, const std::string& name);
-    encode_window(window*, std::string&& name);
+    encode_window(application_window*, const std::string& name);
+    encode_window(application_window*, std::string&& name);
 
     void show() final override;
 

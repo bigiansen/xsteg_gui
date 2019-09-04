@@ -11,7 +11,7 @@ application_window::application_window(window* wnd)
 
 void application_window::update()
 {
-    static encode_window encode_window(_wnd, "Encode");
+    static encode_window encode_window(this, "Encode");
 
     auto [x, y] = _wnd->get_window_size();
     ImGui::SetNextWindowSize(ImVec2((float)x, (float)y));

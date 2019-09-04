@@ -4,33 +4,14 @@
 #include <xsteg/availability_map.hpp>
 
 #include "threshold_editor.hpp"
+#include "application_window.hpp"
+#include "fopen_window.hpp"
 
-#ifdef _WIN32
-    #define GLFW_EXPOSE_NATIVE_WIN32
-    #include <GLFW/glfw3native.h>
-    #include <Windows.h>
-    #include <commdlg.h>
-
-    std::string openfile_diag(window* wnd)
-    {
-        std::string result(512, 0);
-        OPENFILENAMEA fdata;
-        ZeroMemory(&fdata, sizeof(OPENFILENAMEA));
-        fdata.lStructSize = sizeof(OPENFILENAMEA);
-        fdata.hwndOwner = glfwGetWin32Window(wnd->wnd_ptr());
-        fdata.lpstrFile = result.data();
-        fdata.nMaxFile = result.size();
-        fdata.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-        GetOpenFileNameA(&fdata);
-        return result;
-    }
-#endif
-
-encode_window::encode_window(window* wnd, const std::string& name)
+encode_window::encode_window(application_window* wnd, const std::string& name)
     : imgui_window(wnd, name)
 { }
 
-encode_window::encode_window(window* wnd, std::string&& name)
+encode_window::encode_window(application_window* wnd, std::string&& name)
     : imgui_window(wnd, std::move(name))
 { }
 
@@ -57,26 +38,19 @@ void encode_window::update_proc()
     }*/
     
     // **** Input image path ****
-    ImGui::InputTextWithHint("##ii", "Input image path", _input_image.data(), _input_image.size() + 1);    
-#ifdef _WIN32
+    ImGui::InputTextWithHint("##ii", "Input image path", _input_image.data(), _input_image.size() + 1);
     ImGui::SameLine();
     btn_browse_input = ImGui::Button("Browse...");
-    if(btn_browse_input) { _input_image = openfile_diag(_wnd); }
-#endif
 
     // **** Output image path ****
     ImGui::InputTextWithHint("##oi", "Output image path", _output_image.data(), _output_image.size() + 1);
-#ifdef _WIN32
     ImGui::SameLine();
     btn_browse_output = ImGui::Button("Browse...");
-#endif
 
     // **** Input data file ****
     ImGui::InputTextWithHint("##df", "Input data file", _input_data.data(), _input_data.size() + 1);
-#ifdef _WIN32
     ImGui::SameLine();
     btn_browse_data = ImGui::Button("Browse...");
-#endif
 
     ImGui::Separator();
     ImGui::Spacing();
@@ -92,4 +66,10 @@ void encode_window::update_proc()
     ImGui::Separator();
 
     ImGui::Button("Encode!");
+
+    if(btn_browse_input)
+    {
+        fopen_window* fwin = add_child_window<fopen_window>(_appwnd, "Input file select", &_input_image);
+        fwin->show();
+    }
 }
