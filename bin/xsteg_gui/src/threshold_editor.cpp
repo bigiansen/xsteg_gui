@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <optional>
 
+const static ImVec4 COLOR_RED(0.5F, 0.2F, 0.2F, 1.0F);
+const static ImVec4 COLOR_GREEN(0.2F, 0.5F, 0.2F, 1.0F);
+const static ImVec4 COLOR_BLUE(0.2F, 0.2F, 0.5F, 1.0F);
+const static ImVec4 COLOR_GRAY(0.3F, 0.3F, 0.3F, 1.0F);
+
 size_t threshold_editor::threshold_count()
 {
     return _thresholds.size();
@@ -39,12 +44,13 @@ void threshold_editor::update()
             const std::string typestr = "##type_" + std::to_string(idx);
             ImGui::Combo(typestr.c_str(), (int*)&th.data_type, datatype_combo_labels, 9);
             ImGui::SameLine();
+            ImGui::PopItemWidth();
 
             static const char* dir_combo_labels[2] = {
                 "UP",
                 "DOWN"
             };
-
+            ImGui::PushItemWidth(56);
             const std::string dirstr = "##dir_" + std::to_string(idx);
             ImGui::Combo(dirstr.c_str(), (int*)&th.direction, dir_combo_labels, 2);
             ImGui::PopItemWidth();
@@ -59,14 +65,16 @@ void threshold_editor::update()
             ImGui::SameLine();
 
             ImGui::PushItemWidth(16);
-            ImGui::Text("R"); ImGui::SameLine();
+
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_RED);
             ImGui::InputInt(input_r.c_str(), &th.bits.r, 0); ImGui::SameLine();
-            ImGui::Text("G"); ImGui::SameLine();
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_GREEN);
             ImGui::InputInt(input_g.c_str(), &th.bits.g, 0); ImGui::SameLine();
-            ImGui::Text("B"); ImGui::SameLine();
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_BLUE);
             ImGui::InputInt(input_b.c_str(), &th.bits.b, 0); ImGui::SameLine();
-            ImGui::Text("A"); ImGui::SameLine();
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_GRAY);
             ImGui::InputInt(input_a.c_str(), &th.bits.a, 0); ImGui::SameLine();
+            ImGui::PopStyleColor(4);
             ImGui::PopItemWidth();
 
             ImGui::Spacing();
@@ -82,10 +90,12 @@ void threshold_editor::update()
             ImGui::InputFloat(valstr.c_str(), &th.value);
             ImGui::PopItemWidth();
             ImGui::SameLine();
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button, ImVec4(0.8F, 0.25F, 0.25F, 1));
             if(ImGui::Button((" - ##" + std::to_string(idx)).c_str()))
             {
                 delete_idx = idx;
             }
+            ImGui::PopStyleColor();
             ImGui::Separator();
 
             ++idx;
