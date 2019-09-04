@@ -21,7 +21,6 @@ void encode_window::update_proc()
 {
     static std::vector<xsteg::availability_threshold> thresholds;
 
-    static bool window_open = true;    
     static std::string input_image(512, '\0');
     static std::string output_image(512, '\0');
     static std::string input_data(512, '\0');
@@ -33,7 +32,7 @@ void encode_window::update_proc()
     auto [x, y] = _wnd->get_window_size();
     float win_x = static_cast<float>(x * 0.50);
     float win_y = static_cast<float>(y * 0.60);
-    ImGui::SetWindowSize(ImVec2(win_x, win_y), ImGuiCond_::ImGuiCond_Appearing);
+    ImGui::SetWindowSize(ImVec2(win_x, win_y));
     
     // **** Input image path ****
     ImGui::InputTextWithHint("##ii", "Input image path", input_image.data(), input_image.size());
