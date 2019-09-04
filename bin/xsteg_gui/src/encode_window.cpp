@@ -57,7 +57,7 @@ void encode_window::update_proc()
     ImGui::Text("Thresholds: (%d)", thresholds.size());
 
     ImVec2 sz = ImGui::GetWindowSize();
-    ImVec2 editor_sz(0, 0);
+    ImVec2 editor_sz(0, sz.y * 0.5F);
     ImGui::BeginChild("Threshold editor", editor_sz, true, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
     {
         int idx = 0;
@@ -70,6 +70,7 @@ void encode_window::update_proc()
             };
 
             ImGui::Text("[%d]:", idx);
+            ImGui::PushItemWidth(128);
             const std::string typestr = "##type_" + std::to_string(idx);
             ImGui::Combo(typestr.c_str(), (int*)&th.data_type, datatype_combo_labels, 9);
             ImGui::SameLine();
@@ -81,6 +82,7 @@ void encode_window::update_proc()
 
             const std::string dirstr = "##dir_" + std::to_string(idx);
             ImGui::Combo(dirstr.c_str(), (int*)&th.direction, dir_combo_labels, 2);
+            ImGui::PopItemWidth();
             ImGui::SameLine();
 
             const std::string input_r = "##r_" + std::to_string(idx);
@@ -124,7 +126,9 @@ void encode_window::update_proc()
     }
     ImGui::EndChild();
 
-    ImGui::Button("Copy key to clipboard");
+    ImGui::Button("Generate key");
+    ImGui::SameLine();
+    ImGui::Button("Restore key");
     ImGui::Separator();
 
     ImGui::Button("Encode!");
