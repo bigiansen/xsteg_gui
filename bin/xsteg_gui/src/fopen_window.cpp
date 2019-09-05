@@ -3,6 +3,9 @@
 #include <xsteg/image.hpp>
 #include <stb_image.h>
 #include <filesystem>
+#include <exception>
+#include <iostream>
+#include <set>
 
 std::optional<GLuint> fopen_window::_tex_folder;
 std::optional<GLuint> fopen_window::_tex_file;
@@ -68,15 +71,28 @@ void fopen_window::update_proc()
     ImGui::Text(cur_path.string().c_str());
     ImGui::Separator();
 
-    for(auto& path : std::filesystem::directory_iterator(cur_path))
-    {        
-        if (std::filesystem::is_directory(path))
+    for(auto& entry : std::filesystem::directory_iterator(cur_path))
+    {
+        static std::set<std::string> banned_entries;
+        std::string str = entry.path().string();
+        if(banned_entries.count(str)) { continue; }
+        try
         {
-            current_dirs.emplace(path.path(), false);
+            if (std::filesystem::is_directory(entry))
+            {
+                current_dirs.emplace(entry.path(), false);
+            }
+            else
+            {
+                current_files.emplace(entry.path(), false);
+            }
         }
-        else
+        catch(const std::filesystem::filesystem_error& e)
         {
-            current_files.emplace(path.path(), false);
+            banned_entries.emplace(str);
+            std::cout << "Skipped file: " << str << std::endl;
+            std::cout << "Exception: [" << e.code() << "] " << e.what() << std::endl; 
+            continue;
         }
     }
 
