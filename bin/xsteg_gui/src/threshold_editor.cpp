@@ -85,9 +85,9 @@ void threshold_editor::update()
             th.bits.b = std::min(7, std::max(th.bits.b, 0));
             th.bits.a = std::min(7, std::max(th.bits.a, 0));
           
-            ImGui::PushItemWidth(64);
+            ImGui::PushItemWidth(128);
             const std::string valstr = "##value_" + std::to_string(idx);
-            ImGui::InputFloat(valstr.c_str(), &th.value);
+            ImGui::SliderFloat(valstr.c_str(), &th.value, 0, 1);
             ImGui::PopItemWidth();
             ImGui::SameLine();
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button, ImVec4(0.8F, 0.25F, 0.25F, 1));
@@ -97,6 +97,8 @@ void threshold_editor::update()
             }
             ImGui::PopStyleColor();
             ImGui::Separator();
+           
+            th.value = std::clamp(th.value, 0.0F, 1.0F);
 
             ++idx;
         }

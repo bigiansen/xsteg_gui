@@ -40,17 +40,17 @@ void encode_window::update_proc()
     // **** Input image path ****
     ImGui::InputTextWithHint("##ii", "Input image path", _input_image.data(), _input_image.size() + 1);
     ImGui::SameLine();
-    btn_browse_input = ImGui::Button("Browse...");
+    btn_browse_input = ImGui::Button("Browse...##-ii");
 
     // **** Output image path ****
     ImGui::InputTextWithHint("##oi", "Output image path", _output_image.data(), _output_image.size() + 1);
     ImGui::SameLine();
-    btn_browse_output = ImGui::Button("Browse...");
+    btn_browse_output = ImGui::Button("Browse...##-oi");
 
     // **** Input data file ****
     ImGui::InputTextWithHint("##df", "Input data file", _input_data.data(), _input_data.size() + 1);
     ImGui::SameLine();
-    btn_browse_data = ImGui::Button("Browse...");
+    btn_browse_data = ImGui::Button("Browse...##-df");
 
     ImGui::Separator();
     ImGui::Spacing();
@@ -69,7 +69,23 @@ void encode_window::update_proc()
 
     if(btn_browse_input)
     {
-        fopen_window* fwin = add_child_window<fopen_window>("_fopen_window_", _appwnd, "Input file select", &_input_image);
+        fopen_window* fwin = add_child_window<fopen_window>(
+            "_fopen_window_ii_", 
+            _appwnd, 
+            "Input file select", 
+            &_input_image
+        );
+        fwin->show();
+    }
+
+    if(btn_browse_data)
+    {
+        fopen_window* fwin = add_child_window<fopen_window>(
+            "_fopen_window_df_", 
+            _appwnd,
+            "Data file select",
+            &_input_data
+        );
         fwin->show();
     }
 }
