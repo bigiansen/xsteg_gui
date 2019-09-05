@@ -8,7 +8,7 @@ message("**             ------------           **")
 message("****************************************")
 message("")
 
-project(xsteg LANGUAGES CXX C)
+project(xsteg_gui LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
