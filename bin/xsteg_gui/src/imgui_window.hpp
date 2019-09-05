@@ -18,18 +18,18 @@ protected:
     std::optional<ImVec4> _bg_color;
     std::optional<ImVec4> _txt_color;
     bool _show = false;
-    std::vector<std::unique_ptr<imgui_window>> _children;
+    std::map<std::string, std::unique_ptr<imgui_window>> _children;
 
 public:
     imgui_window(application_window*, const std::string& title);
     imgui_window(application_window*, std::string&& title);
 
     template<typename TWin, typename... TArgs>
-    TWin* add_child_window(TArgs... args)
+    TWin* add_child_window(const std::string& name, TArgs... args)
     {
         static_assert(std::is_base_of_v<imgui_window, std::decay_t<TWin>>);
-        _children.push_back(std::make_unique<TWin>(args...));
-        return dynamic_cast<TWin*>(_children.back().get());
+        auto [it, ok] = _children.emplace(name, std::make_unique<TWin>(args...));
+        return dynamic_cast<TWin*>(it->second.get());
     }
 
     void set_background_color(ImVec4 color);

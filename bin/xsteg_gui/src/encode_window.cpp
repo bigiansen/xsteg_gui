@@ -69,7 +69,7 @@ void encode_window::update_proc()
 
     if(btn_browse_input)
     {
-        fopen_window* fwin = add_child_window<fopen_window>(_appwnd, "Input file select", &_input_image);
+        fopen_window* fwin = add_child_window<fopen_window>("_fopen_window_", _appwnd, "Input file select", &_input_image);
         fwin->show();
     }
 }

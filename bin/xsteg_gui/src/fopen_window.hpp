@@ -18,4 +18,7 @@ public:
 
 protected:
     void update_proc() override;
+
+private:
+    void init_textures();
 };

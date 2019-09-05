@@ -47,10 +47,10 @@ void imgui_window::update()
 
         ImGui::Begin(_title.c_str(), &_show);
         update_proc();
-        ImGui::End();   
+        ImGui::End();
         ImGui::PopStyleColor(pop_count);
 
-        for(auto& chwin : _children)
+        for(auto& [name, chwin] : _children)
         {
             chwin->update();
         }

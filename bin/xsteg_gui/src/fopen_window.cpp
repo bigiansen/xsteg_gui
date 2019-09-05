@@ -7,34 +7,47 @@
 std::optional<GLuint> fopen_window::_tex_folder;
 std::optional<GLuint> fopen_window::_tex_file;
 
+GLuint upload_image_tex2d(const xsteg::image& img)
+{
+    static const int pfmt = GL_RGBA; // pixel format
+    static const int pcdt = GL_UNSIGNED_BYTE; // channel data type
+    static const auto target = GL_TEXTURE_2D; // gl texture target
+    static const int tex_filter = GL_NEAREST; // texture filtering method
+
+    GLuint result;
+
+    auto w = img.width();
+    auto h = img.height();
+
+    glGenTextures(1, &result);
+    glBindTexture(target, result);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, tex_filter);
+    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, tex_filter);
+    glTexImage2D(target, 0, pfmt, w, h, 0, pfmt, pcdt, img.cdata());
+
+    return result;
+}
+
 fopen_window::fopen_window(application_window* wnd, const std::string& title, std::string* dest_str)
     : imgui_window(wnd, title)
     , _dest_str(dest_str)
+{
+    init_textures();
+}
+
+void fopen_window::init_textures()
 {
     if(!_tex_folder || !_tex_file)
     {
         _tex_folder = 0;
         _tex_file = 0;
 
-        int x, y, ch;
+        xsteg::image img_folder("res/folder.png");
+        xsteg::image img_file("res/file.png");
 
-        auto* data = stbi_load("res/folder.png", &x, &y, &ch, STBI_rgb_alpha);
-        glGenTextures(1, &_tex_folder.value());
-        glBindTexture(GL_TEXTURE_2D, _tex_folder.value());
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        stbi_image_free(data);
-
-        data = stbi_load("res/file.png", &x, &y, &ch, STBI_rgb_alpha);
-        glGenTextures(1, &_tex_file.value());
-        glBindTexture(GL_TEXTURE_2D, _tex_file.value());
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        stbi_image_free(data);
+        _tex_folder = upload_image_tex2d(img_folder);
+        _tex_file = upload_image_tex2d(img_file);
     }
 }
 
@@ -71,7 +84,7 @@ void fopen_window::update_proc()
     {
         std::string str = dir.first.filename().string();
         bool selected = false;
-        ImGui::Image((void*)(intptr_t)_tex_folder.value(), ImVec2(16, 16));
+        ImGui::Image((void*)(intptr_t)(*_tex_folder), ImVec2(16, 16));
         ImGui::SameLine();
         ImGui::Selectable(str.c_str(), &selected);
         if(selected)
@@ -87,7 +100,7 @@ void fopen_window::update_proc()
     {
         std::string str = dir.first.filename().string();
         bool selected = false;
-        ImGui::Image((void*)(intptr_t)_tex_file.value(), ImVec2(16, 16));
+        ImGui::Image((void*)(intptr_t)(*_tex_file), ImVec2(16, 16));
         ImGui::SameLine();
         ImGui::Selectable(str.c_str(), &selected);
         if(selected)
@@ -96,6 +109,4 @@ void fopen_window::update_proc()
             _show = false;
         }
     }
-
-    auto yes = glIsTexture(_tex_folder.value());
 }
