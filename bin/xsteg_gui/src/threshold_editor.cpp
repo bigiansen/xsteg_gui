@@ -66,24 +66,38 @@ void threshold_editor::update()
 
             ImGui::PushItemWidth(16);
 
+            std::string sr = (th.bits.r <= -1)
+                ? "-" : std::to_string(std::clamp(th.bits.r, 0, 7));
+            std::string sg = (th.bits.g <= -1)
+                ? "-" : std::to_string(std::clamp(th.bits.g, 0, 7));
+            std::string sb = (th.bits.b <= -1)
+                ? "-" : std::to_string(std::clamp(th.bits.b, 0, 7));
+            std::string sa = (th.bits.a <= -1)
+                ? "-" : std::to_string(std::clamp(th.bits.a, 0, 7));
+
+            
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_RED);
-            ImGui::InputInt(input_r.c_str(), &th.bits.r, 0); ImGui::SameLine();
+            ImGui::InputText(input_r.c_str(), sr.data(), 2); ImGui::SameLine();
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_GREEN);
-            ImGui::InputInt(input_g.c_str(), &th.bits.g, 0); ImGui::SameLine();
+            ImGui::InputText(input_g.c_str(), sg.data(), 2); ImGui::SameLine();
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_BLUE);
-            ImGui::InputInt(input_b.c_str(), &th.bits.b, 0); ImGui::SameLine();
+            ImGui::InputText(input_b.c_str(), sb.data(), 2); ImGui::SameLine();
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, COLOR_GRAY);
-            ImGui::InputInt(input_a.c_str(), &th.bits.a, 0); ImGui::SameLine();
+            ImGui::InputText(input_a.c_str(), sa.data(), 2); ImGui::SameLine();
             ImGui::PopStyleColor(4);
             ImGui::PopItemWidth();
 
+            th.bits.r = (sr[0] == '-' || std::atoi(sr.c_str()) < 0) 
+                ? -1 : std::clamp(th.bits.r, 0, 7);
+            th.bits.g = (sg[0] == '-' || std::atoi(sg.c_str()) < 0) 
+                ? -1 : std::clamp(th.bits.g, 0, 7);
+            th.bits.b = (sb[0] == '-' || std::atoi(sb.c_str()) < 0) 
+                ? -1 : std::clamp(th.bits.b, 0, 7);
+            th.bits.a = (sa[0] == '-' || std::atoi(sa.c_str()) < 0) 
+                ? -1 : std::clamp(th.bits.a, 0, 7);
+
             ImGui::Spacing();
             ImGui::SameLine();
-
-            th.bits.r = std::min(7, std::max(th.bits.r, 0));
-            th.bits.g = std::min(7, std::max(th.bits.g, 0));
-            th.bits.b = std::min(7, std::max(th.bits.b, 0));
-            th.bits.a = std::min(7, std::max(th.bits.a, 0));
           
             ImGui::PushItemWidth(128);
             const std::string valstr = "##value_" + std::to_string(idx);
