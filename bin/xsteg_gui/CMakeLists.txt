@@ -11,3 +11,5 @@ SET(XSTEG_GUI_SOURCES
 
 add_executable(xsteg.gui ${XSTEG_GUI_SOURCES})
 target_link_libraries(xsteg.gui xsteg.core imgui glfw)
+
+FILE(COPY res DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/res)

@@ -23,7 +23,7 @@ int main(int, char**)
     window wnd(800, 600, "TITLE", hints);
     
     imgui_ctx ctx(&wnd);
-    glfwSetWindowPos(wnd.wnd_ptr(), 200, 400);
+    glfwSetWindowPos(wnd.wnd_ptr(), 2200, 400);
     application_window appwnd(&wnd);
     ctx.start([&]()
     {

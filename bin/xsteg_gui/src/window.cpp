@@ -9,7 +9,7 @@ static void glfw_resize_callback(GLFWwindow*, int w, int h)
 
 static void glfw_error_callback(int error, const char* description)
 {
-    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+    fprintf(stdout, "Glfw Error %d: %s\n", error, description);
 }
 
 window::window(
