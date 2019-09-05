@@ -40,6 +40,7 @@ void threshold_editor::update()
             };
 
             ImGui::Text("[%d]:", idx);
+            ImGui::SameLine();
             ImGui::PushItemWidth(128);
             const std::string typestr = "##type_" + std::to_string(idx);
             ImGui::Combo(typestr.c_str(), (int*)&th.data_type, datatype_combo_labels, 9);
@@ -87,14 +88,19 @@ void threshold_editor::update()
             ImGui::PopStyleColor(4);
             ImGui::PopItemWidth();
 
-            th.bits.r = (sr[0] == '-' || std::atoi(sr.c_str()) < 0) 
-                ? -1 : std::clamp(th.bits.r, 0, 7);
-            th.bits.g = (sg[0] == '-' || std::atoi(sg.c_str()) < 0) 
-                ? -1 : std::clamp(th.bits.g, 0, 7);
-            th.bits.b = (sb[0] == '-' || std::atoi(sb.c_str()) < 0) 
-                ? -1 : std::clamp(th.bits.b, 0, 7);
-            th.bits.a = (sa[0] == '-' || std::atoi(sa.c_str()) < 0) 
-                ? -1 : std::clamp(th.bits.a, 0, 7);
+            int ir = std::atoi(sr.c_str());
+            int ig = std::atoi(sg.c_str());
+            int ib = std::atoi(sb.c_str());
+            int ia = std::atoi(sa.c_str());
+
+            th.bits.r = (sr[0] == '-' || ir < 0)
+                ? -1 : std::min(ir, 7);
+            th.bits.g = (sg[0] == '-' || ig < 0)
+                ? -1 : std::min(ig, 7);
+            th.bits.b = (sb[0] == '-' || ib < 0) 
+                ? -1 : std::min(ib, 7);
+            th.bits.a = (sa[0] == '-' || ia < 0) 
+                ? -1 : std::min(ia, 7);
 
             ImGui::Spacing();
             ImGui::SameLine();
@@ -123,4 +129,23 @@ void threshold_editor::update()
         }
     }
     ImGui::EndChild();
+}
+
+xsteg::pixel_availability threshold_editor::truncated_bits()
+{
+    xsteg::pixel_availability result;
+    auto it_r = std::max_element(_thresholds.begin(), _thresholds.end(), 
+        [](const auto& th1, const auto& th2) -> bool { return th1.bits.r > th2.bits.r; });
+    auto it_g = std::max_element(_thresholds.begin(), _thresholds.end(), 
+        [](const auto& th1, const auto& th2) -> bool { return th1.bits.g > th2.bits.g; });
+    auto it_b = std::max_element(_thresholds.begin(), _thresholds.end(), 
+        [](const auto& th1, const auto& th2) -> bool { return th1.bits.b > th2.bits.b; });
+    auto it_a = std::max_element(_thresholds.begin(), _thresholds.end(), 
+        [](const auto& th1, const auto& th2) -> bool { return th1.bits.a > th2.bits.a; });
+
+    result.r = (it_r != _thresholds.end()) ? std::max(0, it_r->bits.r) : 0;
+    result.g = (it_g != _thresholds.end()) ? std::max(0, it_g->bits.g) : 0;
+    result.b = (it_b != _thresholds.end()) ? std::max(0, it_b->bits.b) : 0;
+    result.a = (it_a != _thresholds.end()) ? std::max(0, it_a->bits.a) : 0;
+    return result;
 }

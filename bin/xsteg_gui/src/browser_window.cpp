@@ -1,4 +1,4 @@
-#include "fopen_window.hpp"
+#include "browser_window.hpp"
 
 #include <xsteg/image.hpp>
 #include <stb_image.h>
@@ -7,8 +7,8 @@
 #include <iostream>
 #include <set>
 
-std::optional<GLuint> fopen_window::_tex_folder;
-std::optional<GLuint> fopen_window::_tex_file;
+std::optional<GLuint> browser_window::_tex_folder;
+std::optional<GLuint> browser_window::_tex_file;
 
 GLuint upload_image_tex2d(const xsteg::image& img)
 {
@@ -32,14 +32,15 @@ GLuint upload_image_tex2d(const xsteg::image& img)
     return result;
 }
 
-fopen_window::fopen_window(application_window* wnd, const std::string& title, std::string* dest_str)
+browser_window::browser_window(application_window* wnd, const std::string& title, std::string* dest_str, browser_window_mode mode)
     : imgui_window(wnd, title)
     , _dest_str(dest_str)
+    , _mode(mode)
 {
     init_textures();
 }
 
-void fopen_window::init_textures()
+void browser_window::init_textures()
 {
     if(!_tex_folder || !_tex_file)
     {
@@ -54,11 +55,18 @@ void fopen_window::init_textures()
     }
 }
 
-void fopen_window::update_proc()
+void browser_window::update_proc()
 {
     static auto cur_path = std::filesystem::current_path();
     static std::map<std::filesystem::path, bool> current_dirs;
     static std::map<std::filesystem::path, bool> current_files;
+    static bool first_time = true;
+
+    if(first_time)
+    {
+        ImGui::SetWindowSize(ImVec2(360, 240));
+        first_time = false;
+    }
 
     if(ImGui::ArrowButton("UP", ImGuiDir_::ImGuiDir_Up))
     {
@@ -70,7 +78,8 @@ void fopen_window::update_proc()
     ImGui::SameLine();
     ImGui::Text(cur_path.string().c_str());
     ImGui::Separator();
-
+    
+    ImGui::BeginChild("##_fs_list_", ImVec2(0, ImGui::GetWindowHeight() - 96));
     for(auto& entry : std::filesystem::directory_iterator(cur_path))
     {
         static std::set<std::string> banned_entries;
@@ -108,20 +117,50 @@ void fopen_window::update_proc()
             cur_path = dir.first;
             current_files.clear();
             current_dirs.clear();
+            ImGui::EndChild();
             return;
         }
     }
 
-    for(auto& dir : current_files)
+    if(_mode == browser_window_mode::FILE_SAVE || _mode == browser_window_mode::FILE_SELECT)
     {
-        std::string str = dir.first.filename().string();
-        bool selected = false;
-        ImGui::Image((void*)(intptr_t)(*_tex_file), ImVec2(16, 16));
-        ImGui::SameLine();
-        ImGui::Selectable(str.c_str(), &selected);
-        if(selected)
+        for(auto& dir : current_files)
         {
-            *_dest_str = dir.first.string();
+            std::string str = dir.first.filename().string();
+            bool selected = false;
+            ImGui::Image((void*)(intptr_t)(*_tex_file), ImVec2(16, 16));
+            ImGui::SameLine();
+            ImGui::Selectable(str.c_str(), &selected);
+            if(selected)
+            {
+                if(_mode == browser_window_mode::FILE_SELECT)
+                {
+                    *_dest_str = dir.first.string();
+                    _show = false;
+                }
+                else if(_mode == browser_window_mode::FILE_SAVE)
+                {
+                    _selected_text = dir.first.filename().string();
+                }
+            }
+        }
+    }
+    ImGui::EndChild();
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    if(_mode == browser_window_mode::FILE_SAVE)
+    {
+        ImGui::Text("Filename:");
+        ImGui::SameLine();
+        ImGui::InputText("##fsave", _selected_text.data(), 512);
+        ImGui::SameLine();
+        if(ImGui::Button("Save"))
+        {
+            auto path = cur_path;
+            path /= _selected_text;
+            *_dest_str = path.string();
+            _selected_text.clear();
             _show = false;
         }
     }

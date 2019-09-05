@@ -5,7 +5,7 @@
 
 #include "threshold_editor.hpp"
 #include "application_window.hpp"
-#include "fopen_window.hpp"
+#include "browser_window.hpp"
 
 encode_window::encode_window(application_window* wnd, const std::string& name)
     : imgui_window(wnd, name)
@@ -38,16 +38,22 @@ void encode_window::update_proc()
     }*/
     
     // **** Input image path ****
+    ImGui::Text("Input image:   ");
+    ImGui::SameLine();
     ImGui::InputTextWithHint("##ii", "Input image path", _input_image.data(), _input_image.size() + 1);
     ImGui::SameLine();
     btn_browse_input = ImGui::Button("Browse...##-ii");
 
     // **** Output image path ****
+    ImGui::Text("Output image:  ");
+    ImGui::SameLine();
     ImGui::InputTextWithHint("##oi", "Output image path", _output_image.data(), _output_image.size() + 1);
     ImGui::SameLine();
     btn_browse_output = ImGui::Button("Browse...##-oi");
 
     // **** Input data file ****
+    ImGui::Text("Data file:     ");
+    ImGui::SameLine();
     ImGui::InputTextWithHint("##df", "Input data file", _input_data.data(), _input_data.size() + 1);
     ImGui::SameLine();
     btn_browse_data = ImGui::Button("Browse...##-df");
@@ -60,6 +66,10 @@ void encode_window::update_proc()
 
     th_editor.update();
 
+    auto bits = th_editor.truncated_bits();
+    ImGui::Text("Truncated bits: R[%d] G[%d] B[%d] A[%d]", bits.r, bits.g, bits.b, bits.a);
+    ImGui::Separator();
+
     ImGui::Button("Generate key");
     ImGui::SameLine();
     ImGui::Button("Restore key");
@@ -69,22 +79,36 @@ void encode_window::update_proc()
 
     if(btn_browse_input)
     {
-        fopen_window* fwin = add_child_window<fopen_window>(
+        browser_window* fwin = add_child_window<browser_window>(
             "_fopen_window_ii_", 
             _appwnd, 
             "Input file select", 
-            &_input_image
+            &_input_image,
+            browser_window_mode::FILE_SELECT
+        );
+        fwin->show();
+    }
+
+    if(btn_browse_output)
+    {
+        browser_window* fwin = add_child_window<browser_window>(
+            "_fopen_window_oi_", 
+            _appwnd,
+            "Output image select",
+            &_output_image,
+            browser_window_mode::FILE_SAVE
         );
         fwin->show();
     }
 
     if(btn_browse_data)
     {
-        fopen_window* fwin = add_child_window<fopen_window>(
+        browser_window* fwin = add_child_window<browser_window>(
             "_fopen_window_df_", 
             _appwnd,
             "Data file select",
-            &_input_data
+            &_input_data,
+            browser_window_mode::FILE_SELECT
         );
         fwin->show();
     }

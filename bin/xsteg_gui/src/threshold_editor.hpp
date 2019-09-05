@@ -12,4 +12,5 @@ private:
 public:
     void update();
     size_t threshold_count();
+    xsteg::pixel_availability truncated_bits();
 };

@@ -16,6 +16,8 @@
 
 int main(int, char**)
 {
+    std::remove("imgui.ini");
+
     window_opengl_hints hints;
     hints.ver_major = 3;
     hints.ver_minor = 3;
@@ -23,7 +25,7 @@ int main(int, char**)
     window wnd(800, 600, "TITLE", hints);
     
     imgui_ctx ctx(&wnd);
-    glfwSetWindowPos(wnd.wnd_ptr(), 2200, 300);
+    glfwSetWindowPos(wnd.wnd_ptr(), 200, 300);
     application_window appwnd(&wnd);
     ctx.start([&]()
     {
