@@ -78,7 +78,11 @@ void encode_window::update_proc()
         ImGui::OpenPopup("gen_key_popup");
     }
     ImGui::SameLine();
-    btn_res_key = ImGui::Button("Restore key");
+
+    if(ImGui::Button("Restore key"))
+    {
+        ImGui::OpenPopup("res_key_popup");
+    }
     ImGui::Separator();
 
     btn_encode = ImGui::Button("Encode!");
@@ -119,7 +123,6 @@ void encode_window::update_proc()
         fwin->show();
     }
 
-    bool fgen_key_popup = false;
     if(ImGui::BeginPopupModal("gen_key_popup", NULL, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize))
     {
         std::string key = xsteg::generate_thresholds_key(th_editor.thresholds());
@@ -130,6 +133,25 @@ void encode_window::update_proc()
             key.size(), 
             ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
         if (ImGui::Button("Close"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
+
+    if(ImGui::BeginPopupModal("res_key_popup", NULL, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        static std::string key(1024, 0);
+        ImGui::Text("Key: ");
+        ImGui::SameLine();
+        ImGui::InputText("##res_key", key.data(), key.size());
+        if (ImGui::Button("Restore"))
+        {
+            th_editor.thresholds(xsteg::parse_thresholds_key(std::string(key.c_str())));
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if(ImGui::Button("Close"))
         {
             ImGui::CloseCurrentPopup();
         }

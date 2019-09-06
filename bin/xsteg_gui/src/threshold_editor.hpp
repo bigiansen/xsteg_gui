@@ -15,4 +15,5 @@ public:
     xsteg::pixel_availability truncated_bits();
 
     const std::vector<xsteg::availability_threshold>& thresholds();
+    void thresholds(std::vector<xsteg::availability_threshold>&&);
 };

@@ -154,3 +154,8 @@ const std::vector<xsteg::availability_threshold>& threshold_editor::thresholds()
 {
     return _thresholds;
 }
+
+void threshold_editor::thresholds(std::vector<xsteg::availability_threshold>&& ths)
+{
+    _thresholds = std::move(ths);
+}

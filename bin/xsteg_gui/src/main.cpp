@@ -22,7 +22,7 @@ int main(int, char**)
     hints.ver_major = 3;
     hints.ver_minor = 3;
     hints.aa_samples = 4;
-    window wnd(400, 300, "TITLE", hints);
+    window wnd(600, 400, "TITLE", hints);
     
     imgui_ctx ctx(&wnd);
     glfwSetWindowPos(wnd.wnd_ptr(), 2200, 300);
