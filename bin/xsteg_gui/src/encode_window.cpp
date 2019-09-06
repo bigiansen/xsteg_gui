@@ -27,6 +27,9 @@ void encode_window::update_proc()
     static bool btn_browse_output = false;
     static bool btn_browse_data = false;
     static bool btn_edit_thresh = false;
+    static bool btn_gen_key = false;
+    static bool btn_res_key = false;
+    static bool btn_encode = false;
     static threshold_editor th_editor;
     
     /*if(_first_time)
@@ -70,12 +73,15 @@ void encode_window::update_proc()
     ImGui::Text("Truncated bits: R[%d] G[%d] B[%d] A[%d]", bits.r, bits.g, bits.b, bits.a);
     ImGui::Separator();
 
-    ImGui::Button("Generate key");
+    if(ImGui::Button("Generate key"))
+    {
+        ImGui::OpenPopup("gen_key_popup");
+    }
     ImGui::SameLine();
-    ImGui::Button("Restore key");
+    btn_res_key = ImGui::Button("Restore key");
     ImGui::Separator();
 
-    ImGui::Button("Encode!");
+    btn_encode = ImGui::Button("Encode!");
 
     if(btn_browse_input)
     {
@@ -111,5 +117,22 @@ void encode_window::update_proc()
             browser_window_mode::FILE_SELECT
         );
         fwin->show();
+    }
+
+    bool fgen_key_popup = false;
+    if(ImGui::BeginPopupModal("gen_key_popup", NULL, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        std::string key = xsteg::generate_thresholds_key(th_editor.thresholds());
+        ImGui::Text("Generated key:");
+        ImGui::InputText(
+            "##gen_key", 
+            key.data(), 
+            key.size(), 
+            ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+        if (ImGui::Button("Close"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
     }
 }

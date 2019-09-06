@@ -149,3 +149,8 @@ xsteg::pixel_availability threshold_editor::truncated_bits()
     result.a = (it_a != _thresholds.end()) ? std::max(0, it_a->bits.a) : 0;
     return result;
 }
+
+const std::vector<xsteg::availability_threshold>& threshold_editor::thresholds()
+{
+    return _thresholds;
+}
