@@ -17,14 +17,14 @@ int main(int, char**)
 {
     std::remove("imgui.ini");
 
-    guim::window_opengl_hints hints;
+    guim::appwindow_opengl_hints hints;
     hints.ver_major = 3;
     hints.ver_minor = 3;
     hints.aa_samples = 4;
-    guim::window wnd(600, 400, "TITLE", hints);
+    guim::appwindow wnd(800, 600, "TITLE", hints);
     
     guim::context ctx(&wnd);
-    glfwSetWindowPos(wnd.wnd_ptr(), 2200, 300);
+    glfwSetWindowPos(wnd.wnd_ptr(), 400, 300);
     ctx.start([&]()
     {
         // ...

@@ -9,19 +9,19 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "window.hpp"
+#include <guim/appwindow.hpp>
 
 namespace guim
 {
     class context
     {
     private:
-        window* _wnd;
+        appwindow* _wnd;
         ImVec4 _bg_color;
         ImGuiIO* _io;
 
     public:
-        context(window*);
+        context(appwindow*);
         void set_background_color(ImVec4 color);
         void start(std::function<void(void)> main_loop);
     };

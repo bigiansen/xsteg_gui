@@ -9,12 +9,12 @@ namespace guim
 
     void button::operator+=(button_click_callback_t cback)
     {
-        _callback = cback;
+        _callbacks.push_back(cback);
     }
 
-    void button::set_callback(button_click_callback_t cback)
+    void button::add_callback(button_click_callback_t cback)
     {
-        _callback = cback;
+        *this += cback;
     }
 
     void button::update()
@@ -33,7 +33,13 @@ namespace guim
                 ++pop_count;
             }
 
-            if(ImGui::Button(_text.c_str(), _size)) { _callback(); }
+            if(ImGui::Button(_text.c_str(), _size)) 
+            { 
+                for (auto& cback : _callbacks)
+                {
+                    cback();
+                }
+            }
 
             ImGui::PopStyleColor(pop_count);
         }

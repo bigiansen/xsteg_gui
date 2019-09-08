@@ -1,9 +1,9 @@
 #include <guim/context.hpp>
-#include <guim/window.hpp>
+#include <guim/appwindow.hpp>
 
 namespace guim
 {
-    context::context(window* wnd)
+    context::context(appwindow* wnd)
     {
         _wnd = wnd;
 

@@ -14,14 +14,14 @@
 namespace guim
 {
     typedef std::function<void()> button_click_callback_t;
-    class button 
+    class button
         : public widget
         , public traits::background_color
 		, public traits::foreground_color
     {
     protected:
         std::string _text;
-        button_click_callback_t _callback;
+        std::vector<button_click_callback_t> _callbacks;
         
         std::optional<color> _bg_color, _text_color;
 
@@ -29,7 +29,7 @@ namespace guim
         button(const std::string& text, ImVec2 size = ImVec2(0, 0));
         
         void operator+=(button_click_callback_t);
-        void set_callback(button_click_callback_t);
+        void add_callback(button_click_callback_t);
 
 		void set_background_color(const color&);
         void set_foreground_color(const color&);
