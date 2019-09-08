@@ -1,4 +1,5 @@
 SET(XSTEG_GUI_SOURCES
+	src/application.cpp
 	src/main.cpp
 )
 

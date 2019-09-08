@@ -13,22 +13,14 @@
 #include <guim/window.hpp>
 #include <guim/context.hpp>
 
+#include "application.hpp"
+
 int main(int, char**)
 {
     std::remove("imgui.ini");
 
-    guim::appwindow_opengl_hints hints;
-    hints.ver_major = 3;
-    hints.ver_minor = 3;
-    hints.aa_samples = 4;
-    guim::appwindow wnd(800, 600, "TITLE", hints);
-    
-    guim::context ctx(&wnd);
-    glfwSetWindowPos(wnd.wnd_ptr(), 400, 300);
-    ctx.start([&]()
-    {
-        // ...
-    });
+    application app(800, 600, "xsteg GUI");
+    app.start();
 
     return 0;
 }

@@ -19,7 +19,7 @@ namespace guim
         TWidget* add_widget(TArgs... args)
         {
             auto& ref = _widgets.emplace_back(std::make_unique<TWidget>(args...));
-            return ref.get();
+            return dynamic_cast<TWidget*>(ref.get());
         }
 
         virtual void update() override;
