@@ -22,6 +22,8 @@ namespace guim
             return dynamic_cast<TWidget*>(ref.get());
         }
 
+        void clear_widgets();
+
         virtual void update() override;
     };
 }

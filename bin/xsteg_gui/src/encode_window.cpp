@@ -1,6 +1,7 @@
 #include "encode_window.hpp"
 
 #include <guim/msg_popup.hpp>
+#include "browse_popup.hpp"
 
 encode_window::encode_window(ImVec2 sz)
     : window("encode_window", sz)
@@ -16,7 +17,7 @@ encode_window::encode_window(ImVec2 sz)
     _ti_output_image->sameline = true;
     _ti_data_file->sameline = true;
 
-    static guim::msg_popup* mpopup = add_widget<guim::msg_popup>("Browse,ii", "Hi there!");
+    static browse_popup* mpopup = add_widget<browse_popup>("Browse,ii", browse_popup_mode::FILE_SELECT);
     *_btn_browse_ii += [&]()
     {
         mpopup->show();

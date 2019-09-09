@@ -6,6 +6,11 @@ namespace guim
         : widget(size)
     { }
 
+    void container::clear_widgets()
+    {
+        _widgets.clear();
+    }
+
     void container::update()
     {
         if(enabled)

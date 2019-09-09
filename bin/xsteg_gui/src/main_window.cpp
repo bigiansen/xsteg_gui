@@ -20,7 +20,11 @@ void main_window::update()
     {
         if(first_time)
         {
-            glfwSetWindowPos(_appwnd->wnd_ptr(), 2100, 300);
+            if(_position)
+            {
+                glfwSetWindowPos(_appwnd->wnd_ptr(), (int)_position->x, (int)_position->y);
+            }
+
             first_time = false;
             auto [x, y] = _appwnd->get_window_size();
             set_size(ImVec2((float)x, (float)y));
@@ -43,7 +47,7 @@ void main_window::update()
                 if(encode_win == nullptr)
                 {
                     auto [x, y] = _appwnd->get_window_size();
-                    encode_win = add_widget<encode_window>(ImVec2((float)x / 2, (float)y / 2));
+                    encode_win = add_widget<encode_window>(ImVec2((float)x / 1.25F, (float)y / 1.25F));
                 }
                 else
                 {
