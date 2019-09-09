@@ -7,6 +7,9 @@ SET(GUIM_SOURCES
     src/container.cpp
     src/context.cpp
     src/frame.cpp
+    src/message_popup.cpp
+    src/popup.cpp
+    src/text.cpp
 	src/text_input.cpp
     src/widget.cpp
     src/window.cpp
@@ -22,6 +25,9 @@ SET(GUIM_HEADERS
     include/guim/container.hpp
     include/guim/context.hpp
     include/guim/frame.hpp
+    include/guim/message_popup.hpp
+    include/guim/popup.hpp
+    include/guim/text.hpp
 	include/guim/text_input.hpp
     include/guim/widget.hpp
     include/guim/window.hpp

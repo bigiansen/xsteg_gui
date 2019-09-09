@@ -19,6 +19,7 @@ namespace guim
 
     void window::update()
     {
+        static bool first_time = true;
         if(enabled)
         {
             ImGuiWindowFlags flags = 0;
@@ -26,7 +27,12 @@ namespace guim
             if(!titlebar)   { flags |= ImGuiWindowFlags_NoTitleBar; }
             if(!resizable)  { flags |= ImGuiWindowFlags_NoResize; }
 
-            ImGui::SetNextWindowSize(_size);
+            if(first_time)
+            {
+                first_time = false;
+                ImGui::SetNextWindowSize(_size);
+            }
+            
             ImGui::Begin(_name.c_str(), NULL, flags);
             {
                 if(_position) { ImGui::SetWindowPos(*_position); }
