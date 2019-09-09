@@ -16,6 +16,7 @@ namespace guim
         bool background = true;
         bool titlebar = true;
         bool resizable = true;
+        bool never_on_front = false;
 
         window(const std::string& name, ImVec2 size = ImVec2(0, 0));
         

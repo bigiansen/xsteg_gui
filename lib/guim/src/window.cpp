@@ -19,17 +19,16 @@ namespace guim
 
     void window::update()
     {
-        static bool first_time = true;
         if(enabled)
         {
             ImGuiWindowFlags flags = 0;
             if(!background) { flags |= ImGuiWindowFlags_NoBackground; }
             if(!titlebar)   { flags |= ImGuiWindowFlags_NoTitleBar; }
             if(!resizable)  { flags |= ImGuiWindowFlags_NoResize; }
-
-            if(first_time)
+            if(never_on_front) { flags |= ImGuiWindowFlags_NoBringToFrontOnFocus; }
+            if(_first_update)
             {
-                first_time = false;
+                _first_update = false;
                 ImGui::SetNextWindowSize(_size);
             }
             

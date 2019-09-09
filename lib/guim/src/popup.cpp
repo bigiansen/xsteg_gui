@@ -4,6 +4,7 @@ namespace guim
 {
     popup::popup(const std::string& title_label, ImVec2 size)
         : container(size)
+        , _name(title_label)
     { }
 
     void popup::show()
@@ -22,8 +23,8 @@ namespace guim
                 {
                     ImGui::CloseCurrentPopup();
                 }
+                ImGui::EndPopup();
             }
-            ImGui::EndPopup();
         }
     }
 }

@@ -8,7 +8,8 @@ namespace guim
     {
     protected:
         ImVec2 _size = { 0, 0 };
-
+        bool _first_update = true;
+        
     public:
         bool enabled = true;
         bool sameline = false;

@@ -1,5 +1,6 @@
 SET(XSTEG_GUI_SOURCES
 	src/application.cpp
+	src/encode_window.cpp
 	src/main.cpp
 	src/main_window.cpp
 )

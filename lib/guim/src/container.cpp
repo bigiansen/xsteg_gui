@@ -10,9 +10,10 @@ namespace guim
     {
         if(enabled)
         {
-            for(auto& widget : _widgets)
+            size_t count = _widgets.size();
+            for(size_t i = 0; i < count; ++i)
             {
-                widget->update();
+                _widgets[i]->update();
             }
         }
     }

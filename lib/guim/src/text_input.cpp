@@ -17,21 +17,24 @@ namespace guim
 			background_color::push();
             foreground_color::push();
 
-			ImGuiInputTextFlags flags;
+			ImGuiInputTextFlags flags = 0;
 			if(_readonly)
 			{
 				flags |= ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly;
 			}
-
 			if(_size.x > 0)
 			{
 				ImGui::SetNextItemWidth(_size.x);
 			}
-
 			ImGui::InputText(_label.c_str(), &_text, flags);
 
 			background_color::pop();
             foreground_color::pop();
+
+			if(sameline)
+			{
+				ImGui::SameLine();
+			}
 		}
 	}
 }

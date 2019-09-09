@@ -15,6 +15,10 @@ namespace guim
             ImGui::SetNextItemWidth(_size.x);
             ImGui::Text(_text.c_str());
             foreground_color::pop();
+            if(sameline)
+            {
+                ImGui::SameLine();
+            }
         }
     }
 }
