@@ -19,20 +19,10 @@ namespace guim
 
     void button::update()
     {
-        if(_enabled)
+        if(enabled)
         {
-            int pop_count = 0;
-            if(_bg_color)
-            {
-                ImGui::PushStyleColor(ImGuiCol_Button, *_bg_color);
-                ++pop_count;
-            }
-            if(_text_color)
-            {
-                ImGui::PushStyleColor(ImGuiCol_Text, *_text_color);
-                ++pop_count;
-            }
-
+            background_color::push();
+            foreground_color::push();
             if(ImGui::Button(_text.c_str(), _size)) 
             { 
                 for (auto& cback : _callbacks)
@@ -40,18 +30,13 @@ namespace guim
                     cback();
                 }
             }
+            foreground_color::pop();
+            background_color::pop();
 
-            ImGui::PopStyleColor(pop_count);
+            if(sameline)
+            {
+                ImGui::SameLine();
+            }
         }
-    }
-
-    void button::set_background_color(const color& col)
-    {
-        _bg_color = col;
-    }
-
-    void button::set_foreground_color(const color& col)
-    {
-        _text_color = col;
     }
 }

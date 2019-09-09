@@ -10,19 +10,19 @@
 #include <GLFW/glfw3.h>
 
 #include <guim/appwindow.hpp>
+#include <guim/traits/background_color.hpp>
 
 namespace guim
 {
     class context
+        : traits::background_color
     {
     private:
         appwindow* _wnd;
-        ImVec4 _bg_color;
         ImGuiIO* _io;
 
     public:
         context(appwindow*);
-        void set_background_color(ImVec4 color);
         void start(std::function<void(void)> main_loop);
     };
 }

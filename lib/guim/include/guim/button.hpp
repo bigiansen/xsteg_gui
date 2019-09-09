@@ -22,17 +22,12 @@ namespace guim
     protected:
         std::string _text;
         std::vector<button_click_callback_t> _callbacks;
-        
-        std::optional<color> _bg_color, _text_color;
 
     public:
         button(const std::string& text, ImVec2 size = ImVec2(0, 0));
         
         void operator+=(button_click_callback_t);
         void add_callback(button_click_callback_t);
-
-		void set_background_color(const color&);
-        void set_foreground_color(const color&);
 
         void update() override;
     };

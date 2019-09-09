@@ -4,6 +4,8 @@
 #include <guim/frame.hpp>
 #include <guim/window.hpp>
 
+#include "main_window.hpp"
+
 application::application(int w, int h, const std::string& title)
 {
     guim::appwindow_opengl_hints hints;
@@ -17,13 +19,9 @@ application::application(int w, int h, const std::string& title)
 
 void application::start()
 {
+    static main_window mwin(_appwnd.get());
     _ctx->start([&]()
     {
-        main_loop();
+        mwin.update();
     });
-}
-
-void application::main_loop()
-{
-    
 }

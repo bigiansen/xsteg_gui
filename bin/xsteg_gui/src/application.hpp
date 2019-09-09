@@ -13,7 +13,4 @@ private:
 public:
     application(int w, int h, const std::string& title);
     void start();
-
-private:
-    void main_loop();
 };

@@ -8,9 +8,12 @@ namespace guim
 
     void container::update()
     {
-        for(auto& widget : _widgets)
+        if(enabled)
         {
-            widget->update();
+            for(auto& widget : _widgets)
+            {
+                widget->update();
+            }
         }
     }
 }

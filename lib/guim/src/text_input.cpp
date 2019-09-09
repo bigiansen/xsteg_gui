@@ -12,10 +12,10 @@ namespace guim
 
 	void text_input::update()
 	{		
-		if (_enabled)
+		if (enabled)
 		{
-			push_background_color();
-			push_foreground_color();
+			background_color::push();
+            foreground_color::push();
 
 			ImGuiInputTextFlags flags;
 			if(_readonly)
@@ -30,8 +30,8 @@ namespace guim
 
 			ImGui::InputText(_label.c_str(), &_text, flags);
 
-			pop_foreground_color();
-			pop_background_color();
+			background_color::pop();
+            foreground_color::pop();
 		}
 	}
 }

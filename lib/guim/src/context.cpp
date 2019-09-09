@@ -18,12 +18,7 @@ namespace guim
         ImGui_ImplGlfw_InitForOpenGL(_wnd->wnd_ptr(), true);
         ImGui_ImplOpenGL3_Init(glsl_version.c_str());
 
-        _bg_color = ImVec4(0.20f, 0.25f, 0.30f, 1.00f);
-    }
-
-    void context::set_background_color(ImVec4 color)
-    {
-        _bg_color = color;
+        color_background = color(0.20f, 0.25f, 0.30f, 1.00f);
     }
 
     void context::start(std::function<void(void)> main_loop)
@@ -44,7 +39,11 @@ namespace guim
             int display_w, display_h;
             glfwGetFramebufferSize(_wnd->wnd_ptr(), &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
-            glClearColor(_bg_color.x, _bg_color.y, _bg_color.z, _bg_color.w);
+            glClearColor(
+                color_background->r, 
+                color_background->g, 
+                color_background->b, 
+                color_background->a);
             glClear(GL_COLOR_BUFFER_BIT);
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

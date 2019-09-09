@@ -1,6 +1,7 @@
 SET(XSTEG_GUI_SOURCES
 	src/application.cpp
 	src/main.cpp
+	src/main_window.cpp
 )
 
 add_executable(xsteg.gui ${XSTEG_GUI_SOURCES})

@@ -1,6 +1,5 @@
 SET(GUIM_SOURCES
     src/traits/background_color.cpp
-    src/traits/border.cpp
     src/traits/foreground_color.cpp
     src/appwindow.cpp
     src/button.cpp
@@ -9,7 +8,8 @@ SET(GUIM_SOURCES
     src/context.cpp
     src/frame.cpp
 	src/text_input.cpp
-    src/widget.cpp    
+    src/widget.cpp
+    src/window.cpp
 )
 
 SET(GUIM_HEADERS
@@ -20,10 +20,11 @@ SET(GUIM_HEADERS
     include/guim/button.hpp
     include/guim/color.hpp
     include/guim/container.hpp
-    include/guim/context.hpp    
+    include/guim/context.hpp
     include/guim/frame.hpp
 	include/guim/text_input.hpp
-    include/guim/widget.hpp    
+    include/guim/widget.hpp
+    include/guim/window.hpp
 )
 
 if(MSVC)

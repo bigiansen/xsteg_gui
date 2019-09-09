@@ -5,18 +5,11 @@
 
 namespace guim::traits
 {
-    class background_color
+    struct background_color
     {
-    protected:
-        std::optional<color> _bg_color;
+        std::optional<color> color_background;
 
-    public:
-        void set_background_color(const color& col) noexcept;
-        void reset_background_color() noexcept;
-
-        color get_background_color() const noexcept;
-
-        void push_background_color();
-        void pop_background_color();
+        void push();
+        void pop();
     };
 }
