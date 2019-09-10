@@ -65,7 +65,7 @@ void browse_popup::update()
                 if(ImGui::Button("Save"))
                 {
                     ImGui::CloseCurrentPopup();
-                    *_target = (_current_dir /= _selected_text).string();
+                    *_target = (_current_dir / _selected_text).string();
                 };
             }
             ImGui::EndPopup();
@@ -85,7 +85,7 @@ void browse_popup::refresh_current_directory()
     static std::set<stdfs::path> banned_paths;
     for(auto& entry : stdfs::directory_iterator(_current_dir))
     {
-        if(banned_paths.count(entry)) {continue;}
+        if(banned_paths.count(entry)) { continue; }
         try
         {
             if(stdfs::is_directory(entry))
@@ -122,6 +122,7 @@ void browse_popup::setup_file_widgets()
     for(auto& file : _current_files)
     {
         auto* ptr = add_widget<guim::selectable>(file.filename().string().c_str());
+        ptr->color_background = guim::color(0, 0, 0, 0);
         ptr->add_callback([&]()
         {
             if(_mode == browse_popup_mode::FILE_SELECT)
@@ -129,7 +130,7 @@ void browse_popup::setup_file_widgets()
                 _selected_text = file.filename().string().c_str();
                 _requires_refresh = true;
                 ImGui::CloseCurrentPopup();
-                *_target = (_current_dir /= _selected_text).string();
+                *_target = (_current_dir / _selected_text).string();
             }
             else if(_mode == browse_popup_mode::FILE_SAVE)
             {

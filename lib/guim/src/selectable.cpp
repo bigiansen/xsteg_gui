@@ -16,8 +16,8 @@ namespace guim
 
             ImGuiSelectableFlags flags = 0;
             flags |= ImGuiSelectableFlags_::ImGuiSelectableFlags_DontClosePopups;
-            bool enabled = true;
-            if(ImGui::Selectable(_label.c_str(), &enabled, flags))
+            bool selected = false;
+            if(ImGui::Selectable(_label.c_str(), &selected, flags))
             {
                 for(auto& cback : _callbacks)
                 {
