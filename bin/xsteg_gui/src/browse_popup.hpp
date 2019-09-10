@@ -17,10 +17,16 @@ protected:
     std::string _label;
     std::string _selected_text;
     browse_popup_mode _mode;
+    std::string* _target;
     bool _requires_refresh = false;
 
 public:
-    browse_popup(const std::string& label, browse_popup_mode, ImVec2 size = ImVec2(0, 0));
+    browse_popup(
+        const std::string& label, 
+        browse_popup_mode, 
+        std::string* target, 
+        ImVec2 size = ImVec2(0, 0));
+        
     void show();
     void update() override;
     const std::string& selected();

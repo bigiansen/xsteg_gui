@@ -10,6 +10,11 @@ namespace guim
 		, _text(max_size, '\0')
 	{ }
 
+	std::string& text_input::text()
+	{
+		return _text;
+	}
+
 	void text_input::update()
 	{		
 		if (enabled)

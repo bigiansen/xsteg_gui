@@ -25,6 +25,8 @@ namespace guim
 		void readonly(bool readonly);
 		bool readonly();
 
+		std::string& text();
+
 		void update() override;
 	};
 }

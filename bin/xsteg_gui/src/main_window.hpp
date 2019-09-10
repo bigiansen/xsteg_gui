@@ -3,7 +3,7 @@
 #include <guim/appwindow.hpp>
 #include <guim/window.hpp>
 
-class main_window final : guim::window
+class main_window final : public guim::window
 {
 private:
     guim::appwindow* _appwnd;
