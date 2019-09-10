@@ -34,21 +34,11 @@ void browse_popup::update()
     {
         if(_requires_refresh)
         {
-            _requires_refresh = false;   
+            _requires_refresh = false;
             _widgets.clear();
             refresh_current_directory();
             setup_directory_widgets();
             setup_file_widgets();
-            if(_mode == browse_popup_mode::FILE_SAVE)
-            {
-                ImGui::InputText(_label.c_str(), &_selected_text);
-                auto* ptr = add_widget<guim::button>("Save");
-                ptr->add_callback([&]()
-                {
-                    ImGui::CloseCurrentPopup();
-                    *_target = _selected_text;
-                });
-            }
         }
 
         ImGuiWindowFlags flags = 0;
@@ -64,22 +54,19 @@ void browse_popup::update()
             ImGui::SameLine();
             ImGui::Text(_current_dir.string().c_str());
             ImGui::Separator();
+
             container::update();
+
             if(_mode == browse_popup_mode::FILE_SAVE)
             {
                 ImGui::Separator();
-                static guim::msg_popup* empty_filename = 
-                    add_widget<guim::msg_popup>("Warning!##ef", "Empty filename!");
+                ImGui::InputText(_label.c_str(), &_selected_text);
+                ImGui::SameLine();
                 if(ImGui::Button("Save"))
                 {
-                    if(_selected_text.empty())
-                    {
-                        empty_filename->show();
-                        return;
-                    }
-                    *_target = (_current_dir /= _selected_text).string();
                     ImGui::CloseCurrentPopup();
-                }
+                    *_target = (_current_dir /= _selected_text).string();
+                };
             }
             ImGui::EndPopup();
         }
@@ -139,14 +126,14 @@ void browse_popup::setup_file_widgets()
         {
             if(_mode == browse_popup_mode::FILE_SELECT)
             {
-                _selected_text = file.string().c_str();
+                _selected_text = file.filename().string().c_str();
                 _requires_refresh = true;
                 ImGui::CloseCurrentPopup();
-                *_target = _selected_text;
+                *_target = (_current_dir /= _selected_text).string();
             }
             else if(_mode == browse_popup_mode::FILE_SAVE)
             {
-                _selected_text = file.string().c_str();
+                _selected_text = file.filename().string().c_str();
             }
         });
     }

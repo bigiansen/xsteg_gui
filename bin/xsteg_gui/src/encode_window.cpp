@@ -20,7 +20,7 @@ encode_window::encode_window(ImVec2 sz)
     static browse_popup* browse_ii = add_widget<browse_popup>(
         "Browse,ii", 
         browse_popup_mode::FILE_SELECT, 
-        &_ti_input_image->text()
+        &_ti_output_image->text()
     );
     static browse_popup* browse_oi = add_widget<browse_popup>(
         "Browse,oi", 
@@ -30,13 +30,12 @@ encode_window::encode_window(ImVec2 sz)
     static browse_popup* browse_df = add_widget<browse_popup>(
         "Browse,df", 
         browse_popup_mode::FILE_SELECT, 
-        &_ti_input_image->text()
+        &_ti_data_file->text()
     );
     
-    *_btn_browse_ii += [&]()
-    {
-        browse_ii->show();
-    };
+    _btn_browse_ii->add_callback([](){ browse_ii->show(); });
+    _btn_browse_oi->add_callback([](){ browse_oi->show(); });
+    _btn_browse_df->add_callback([](){ browse_df->show(); });
 }
 
 void encode_window::update()
