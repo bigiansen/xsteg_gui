@@ -22,12 +22,12 @@ encode_window::encode_window(ImVec2 sz)
         browse_popup_mode::FILE_SELECT, 
         &_ti_input_image->text()
     );
-    static browse_popup* browse_ii = add_widget<browse_popup>(
+    static browse_popup* browse_oi = add_widget<browse_popup>(
         "Browse,oi", 
         browse_popup_mode::FILE_SAVE,
         &_ti_input_image->text()
     );
-    static browse_popup* browse_ii = add_widget<browse_popup>(
+    static browse_popup* browse_df = add_widget<browse_popup>(
         "Browse,df", 
         browse_popup_mode::FILE_SELECT, 
         &_ti_input_image->text()
