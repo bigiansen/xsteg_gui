@@ -37,15 +37,22 @@ void browse_popup::update()
             _requires_refresh = false;
             _widgets.clear();
             refresh_current_directory();
-            setup_directory_widgets();
-            setup_file_widgets();
+            ImGui::BeginChild("##file_list", ImVec2(0, 0), true);
+            {
+                setup_directory_widgets();
+                setup_file_widgets();
+            }
+            ImGui::EndChild();
         }
 
         ImGuiWindowFlags flags = 0;
         flags |= ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize;
-
-        if(ImGui::BeginPopupModal(_label.c_str()))
+        ImGui::SetNextWindowSize(_size);
+        if(ImGui::BeginPopupModal(_label.c_str(), NULL, flags))
         {
+            #ifdef _WIN32
+            update_drive_selector();
+            #endif
             if(ImGui::ArrowButton("##dir_up", ImGuiDir_Up))
             {
                 _current_dir = _current_dir.parent_path();
@@ -83,24 +90,32 @@ void browse_popup::refresh_current_directory()
     _current_dirs.clear();
     _current_files.clear();
     static std::set<stdfs::path> banned_paths;
-    for(auto& entry : stdfs::directory_iterator(_current_dir))
+    auto options = stdfs::directory_options::skip_permission_denied;
+    try
     {
-        if(banned_paths.count(entry)) { continue; }
-        try
+        for(auto& entry : stdfs::directory_iterator(_current_dir, options))
         {
-            if(stdfs::is_directory(entry))
+            if(banned_paths.count(entry)) { continue; }
+            try
             {
-                _current_dirs.push_back(entry);
+                if(stdfs::is_directory(entry))
+                {
+                    _current_dirs.push_back(entry);
+                }
+                else if(stdfs::is_regular_file(entry))
+                {
+                    _current_files.push_back(entry);
+                }
             }
-            else if(stdfs::is_regular_file(entry))
+            catch(std::filesystem::filesystem_error)
             {
-                _current_files.push_back(entry);
+                banned_paths.emplace(entry);
             }
         }
-        catch(std::filesystem::filesystem_error)
-        {
-            banned_paths.emplace(entry);
-        }
+    }
+    catch(stdfs::filesystem_error e)
+    {
+        exit(e.code().value());
     }
 }
 
@@ -139,3 +154,47 @@ void browse_popup::setup_file_widgets()
         });
     }
 }
+
+#ifdef _WIN32
+#include <Windows.h>
+
+void browse_popup::update_drive_selector()
+{
+    DWORD mask = GetLogicalDrives();
+    static const std::string LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    static std::string available_drives;
+    available_drives.clear();
+    for(size_t i = 0; i < LETTERS.size(); ++i)
+    {
+        DWORD check_mask = 0 | (1 << i);
+        if((mask | check_mask) == mask)
+        {
+            std::string path = std::string("") + LETTERS[i] + ":";
+            INT type = GetDriveTypeA(path.c_str());
+            
+            if(type == DRIVE_REMOVABLE || type == DRIVE_FIXED)
+            {
+                available_drives += LETTERS[i];
+                available_drives += '\0';
+            }
+        }
+    }
+
+    static int current_item = 0;
+    auto* data = available_drives.data();
+    ImGui::SetNextItemWidth(40);
+    ImGui::Text("Drive: ");
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(40);
+    if(ImGui::Combo("##drives", &current_item, data, available_drives.size()))
+    {
+        std::string path = "";
+        path += available_drives[current_item * 2];
+        path += ":\\";        
+        _current_dir = stdfs::path(path);
+        _requires_refresh = true;
+    }
+    ImGui::SameLine();
+}
+
+#endif

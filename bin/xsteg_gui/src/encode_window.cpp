@@ -17,20 +17,25 @@ encode_window::encode_window(ImVec2 sz)
     _ti_output_image->sameline = true;
     _ti_data_file->sameline = true;
 
+    ImVec2 browse_popup_size = ImVec2(_size.x * 0.8F, _size.y * 0.8F);
+
     static browse_popup* browse_ii = add_widget<browse_popup>(
         "Browse,ii", 
         browse_popup_mode::FILE_SELECT, 
-        &_ti_input_image->text()
+        &_ti_input_image->text(),
+        browse_popup_size
     );
     static browse_popup* browse_oi = add_widget<browse_popup>(
         "Browse,oi",
         browse_popup_mode::FILE_SAVE,
-        &_ti_output_image->text()
+        &_ti_output_image->text(),
+        browse_popup_size
     );
     static browse_popup* browse_df = add_widget<browse_popup>(
         "Browse,df", 
         browse_popup_mode::FILE_SELECT, 
-        &_ti_data_file->text()
+        &_ti_data_file->text(),
+        browse_popup_size
     );
     
     _btn_browse_ii->add_callback([](){ browse_ii->show(); });

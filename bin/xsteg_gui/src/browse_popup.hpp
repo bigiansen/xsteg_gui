@@ -35,4 +35,9 @@ protected:
     void refresh_current_directory();
     void setup_directory_widgets();
     void setup_file_widgets();
+
+// Allow selecting Windows drive letters as current path
+#ifdef _WIN32    
+    void update_drive_selector();
+#endif
 };
