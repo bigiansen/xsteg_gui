@@ -17,6 +17,11 @@ namespace guim
         _position.reset();
     }
 
+    ImVec2 window::get_current_window_sz()
+    {
+        return _current_window_sz;
+    }
+
     void window::update()
     {
         if(enabled)
@@ -34,6 +39,7 @@ namespace guim
             
             ImGui::Begin(_name.c_str(), NULL, flags);
             {
+                _current_window_sz = ImGui::GetWindowSize();
                 if(_position) { ImGui::SetWindowPos(*_position); }
                 container::update();
             }

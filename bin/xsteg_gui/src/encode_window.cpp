@@ -15,7 +15,7 @@ encode_window::encode_window(ImVec2 sz)
 
     _ti_input_image->sameline = true;
     _ti_output_image->sameline = true;
-    _ti_data_file->sameline = true;
+    _ti_data_file->sameline = true;    
 
     ImVec2 browse_popup_size = ImVec2(_size.x * 0.8F, _size.y * 0.8F);
 
@@ -52,5 +52,12 @@ void encode_window::update()
         first_time = false;
     }
     
+    ImVec2 input_size = get_current_window_sz();
+    input_size.x -= 94;
+    input_size.y = 0;
+    _ti_input_image->set_size(input_size);
+    _ti_output_image->set_size(input_size);
+    _ti_data_file->set_size(input_size);
+
     window::update();
 }

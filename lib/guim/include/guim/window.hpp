@@ -11,7 +11,8 @@ namespace guim
     protected:
         std::string _name;
         std::optional<ImVec2> _position;
-        
+        ImVec2 _current_window_sz;
+
     public:
         bool background = true;
         bool titlebar = true;
@@ -22,6 +23,8 @@ namespace guim
         
         void set_position(ImVec2 pos);
         void reset_position();
+
+        ImVec2 get_current_window_sz();
         
         void update() override;
     };
