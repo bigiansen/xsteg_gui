@@ -8,7 +8,7 @@
 
 #include <set>
 
-#define stdfs std::filesystem
+namespace stdfs = XSTEG_STDFS_HEADER;
 
 browse_popup::browse_popup(const std::string& label, browse_popup_mode mode, std::string* target, ImVec2 size)
     : container(size)
