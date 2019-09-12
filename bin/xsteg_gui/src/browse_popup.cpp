@@ -57,7 +57,9 @@ void browse_popup::update()
                 _requires_refresh = true;
             }
             ImGui::SameLine();
-            ImGui::InputText("##current_path", &_current_dir.string(), ImGuiInputTextFlags_ReadOnly);
+            static std::string temp_str;
+            temp_str = _current_dir.string();
+            ImGui::InputText("##current_path", &temp_str, ImGuiInputTextFlags_ReadOnly);
             ImGui::Separator();
 
             ImGui::BeginChild("##file_list", ImVec2(0, ImGui::GetWindowHeight() - 96), true);
