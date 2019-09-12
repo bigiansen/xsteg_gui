@@ -11,7 +11,8 @@ SET(GUIM_SOURCES
     src/popup.cpp
     src/selectable.cpp
     src/text.cpp
-	src/text_input.cpp
+    src/text_input.cpp
+    src/texture.cpp
     src/widget.cpp
     src/window.cpp
 )
@@ -30,7 +31,8 @@ SET(GUIM_HEADERS
     include/guim/popup.hpp
     include/guim/selectable.hpp
     include/guim/text.hpp
-	include/guim/text_input.hpp
+    include/guim/text_input.hpp
+    include/guim/texture.hpp
     include/guim/widget.hpp
     include/guim/window.hpp
 )
