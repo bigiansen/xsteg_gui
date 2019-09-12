@@ -31,11 +31,11 @@ namespace guim
 			{
 				ImGui::SetNextItemWidth(_size.x);
 			}
-			ImGui::InputText(_label.c_str(), &_text, flags);
+			ImGui::InputText(_label.c_str(), _text.data(), flags);
 
 			background_color::pop();
             foreground_color::pop();
-
+			
 			if(sameline)
 			{
 				ImGui::SameLine();

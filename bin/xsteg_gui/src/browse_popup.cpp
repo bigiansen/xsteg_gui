@@ -5,7 +5,6 @@
 #include <guim/image.hpp>
 #include <guim/msg_popup.hpp>
 #include <guim/selectable.hpp>
-
 #include <set>
 
 browse_popup::browse_popup(const std::string& label, browse_popup_mode mode, std::string* target, ImVec2 size)
@@ -58,7 +57,7 @@ void browse_popup::update()
             }
             ImGui::SameLine();
             static std::string temp_str;
-            temp_str = _current_dir.string();
+            temp_str = _current_dir.u8string();
             ImGui::InputText("##current_path", &temp_str, ImGuiInputTextFlags_ReadOnly);
             ImGui::Separator();
 
@@ -74,7 +73,7 @@ void browse_popup::update()
                 if(ImGui::Button("Save"))
                 {
                     ImGui::CloseCurrentPopup();
-                    *_target = (_current_dir / _selected_text).string();
+                    *_target = (_current_dir / _selected_text).u8string();
                 };
                 ImGui::SameLine();
             }
@@ -133,7 +132,7 @@ void browse_popup::setup_directory_widgets()
     {
         auto* icon = add_widget<guim::image>("##icond", "res/folder.png", ImVec2(16, 16));
         icon->sameline = true;
-        auto* dir_entry = add_widget<guim::selectable>(dir.filename().string().c_str());
+        auto* dir_entry = add_widget<guim::selectable>(dir.filename().u8string());
         dir_entry->add_callback([&]()
         {
             _current_dir = dir;
@@ -148,20 +147,21 @@ void browse_popup::setup_file_widgets()
     {
         auto* icon = add_widget<guim::image>("##iconf", "res/file.png", ImVec2(16, 16));
         icon->sameline = true;
-        auto* ptr = add_widget<guim::selectable>(file.filename().string().c_str());
+        auto* ptr = add_widget<guim::selectable>(file.filename().u8string());
         ptr->color_background = guim::color(0, 0, 0, 0);
         ptr->add_callback([&]()
         {
             if(_mode == browse_popup_mode::FILE_SELECT)
             {
-                _selected_text = file.filename().string().c_str();
+                _selected_text.clear();
+                auto temp_str = file.filename().u32string();
                 _requires_refresh = true;
                 ImGui::CloseCurrentPopup();
-                *_target = (_current_dir / _selected_text).string();
+                *_target = (_current_dir / temp_str).u8string();
             }
             else if(_mode == browse_popup_mode::FILE_SAVE)
             {
-                _selected_text = file.filename().string().c_str();
+                _selected_text = file.filename().u8string();
             }
         });
     }
@@ -199,7 +199,7 @@ void browse_popup::update_drive_selector()
     ImGui::Text("Drive: ");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(40);
-    if(ImGui::Combo("##drives", &current_item, data, available_drives.size()))
+    if(ImGui::Combo("##drives", &current_item, data, (int)available_drives.size()))
     {
         std::string path = "";
         path += available_drives[current_item * 3];
