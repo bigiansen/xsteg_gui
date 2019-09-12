@@ -37,6 +37,7 @@ void browse_popup::update()
             _requires_refresh = false;
             _widgets.clear();
             refresh_current_directory();
+            
             ImGui::BeginChild("##file_list", ImVec2(0, 0), true);
             {
                 setup_directory_widgets();
@@ -44,11 +45,9 @@ void browse_popup::update()
             }
             ImGui::EndChild();
         }
-
-        ImGuiWindowFlags flags = 0;
-        flags |= ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize;
-        ImGui::SetNextWindowSize(_size);
-        if(ImGui::BeginPopupModal(_label.c_str(), NULL, flags))
+        
+        ImGui::SetNextWindowSize(_size, ImGuiCond_::ImGuiCond_FirstUseEver);
+        if(ImGui::BeginPopupModal(_label.c_str(), NULL))
         {
             #ifdef _WIN32
             update_drive_selector();
@@ -59,22 +58,30 @@ void browse_popup::update()
                 _requires_refresh = true;
             }
             ImGui::SameLine();
-            ImGui::Text(_current_dir.string().c_str());
+            ImGui::InputText("##current_path", &_current_dir.string(), ImGuiInputTextFlags_ReadOnly);
             ImGui::Separator();
 
+            ImGui::BeginChild("##file_list", ImVec2(0, ImGui::GetWindowHeight() - 96), true);
             container::update();
+            ImGui::EndChild();
 
+            ImGui::Separator();
             if(_mode == browse_popup_mode::FILE_SAVE)
             {
-                ImGui::Separator();
-                ImGui::InputText(_label.c_str(), &_selected_text);
+                ImGui::InputText("##file_save_button", &_selected_text);
                 ImGui::SameLine();
                 if(ImGui::Button("Save"))
                 {
                     ImGui::CloseCurrentPopup();
                     *_target = (_current_dir / _selected_text).string();
                 };
+                ImGui::SameLine();
             }
+            if(ImGui::Button("Close"))
+            {
+                ImGui::CloseCurrentPopup();
+            }
+
             ImGui::EndPopup();
         }
     }
@@ -161,7 +168,7 @@ void browse_popup::setup_file_widgets()
 void browse_popup::update_drive_selector()
 {
     DWORD mask = GetLogicalDrives();
-    static const std::string LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    static const std::string LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     static std::string available_drives;
     available_drives.clear();
     for(size_t i = 0; i < LETTERS.size(); ++i)
@@ -175,6 +182,7 @@ void browse_popup::update_drive_selector()
             if(type == DRIVE_REMOVABLE || type == DRIVE_FIXED)
             {
                 available_drives += LETTERS[i];
+                available_drives += ":";
                 available_drives += '\0';
             }
         }
@@ -189,8 +197,8 @@ void browse_popup::update_drive_selector()
     if(ImGui::Combo("##drives", &current_item, data, available_drives.size()))
     {
         std::string path = "";
-        path += available_drives[current_item * 2];
-        path += ":\\";        
+        path += available_drives[current_item * 3];
+        path += ":\\";
         _current_dir = stdfs::path(path);
         _requires_refresh = true;
     }
