@@ -8,8 +8,6 @@
 
 #include <set>
 
-namespace stdfs = XSTEG_STDFS_HEADER;
-
 browse_popup::browse_popup(const std::string& label, browse_popup_mode mode, std::string* target, ImVec2 size)
     : container(size)
     , _mode(mode)
@@ -115,7 +113,7 @@ void browse_popup::refresh_current_directory()
                     _current_files.push_back(entry);
                 }
             }
-            catch(std::filesystem::filesystem_error)
+            catch(stdfs::filesystem_error)
             {
                 banned_paths.emplace(entry);
             }

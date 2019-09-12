@@ -9,11 +9,13 @@ enum class browse_popup_mode
     FILE_SAVE
 };
 
+namespace stdfs = XSTEG_STDFS_HEADER;
+
 class browse_popup : public guim::container
 {
 protected:
-    std::filesystem::path _current_dir;
-    std::vector<std::filesystem::path> _current_files, _current_dirs;
+    stdfs::path _current_dir;
+    std::vector<stdfs::path> _current_files, _current_dirs;
     std::string _label;
     std::string _selected_text;
     browse_popup_mode _mode;
