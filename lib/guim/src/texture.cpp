@@ -23,6 +23,7 @@ namespace guim
 
         glGenTextures(1, &info.tex_id);
         glBindTexture(GL_TEXTURE_2D, info.tex_id);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexImage2D(
             GL_TEXTURE_2D, 
             0, 
@@ -34,7 +35,8 @@ namespace guim
             GL_UNSIGNED_BYTE, 
             data);
         
-        _tex_dict.emplace(filename, info);
+        auto [iter, ok] = _tex_dict.emplace(filename, info);
+        return iter;
     }
 
     bool texture_storage::contains(const std::string& filename)

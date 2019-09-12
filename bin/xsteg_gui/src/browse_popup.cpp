@@ -2,6 +2,7 @@
 
 #include <imgui_stdlib.h>
 #include <guim/button.hpp>
+#include <guim/image.hpp>
 #include <guim/msg_popup.hpp>
 #include <guim/selectable.hpp>
 
@@ -130,8 +131,10 @@ void browse_popup::setup_directory_widgets()
 {
     for(auto& dir : _current_dirs)
     {
-        auto* ptr = add_widget<guim::selectable>(dir.filename().string().c_str());
-        ptr->add_callback([&]()
+        auto* icon = add_widget<guim::image>("##icond", "res/folder.png", ImVec2(16, 16));
+        icon->sameline = true;
+        auto* dir_entry = add_widget<guim::selectable>(dir.filename().string().c_str());
+        dir_entry->add_callback([&]()
         {
             _current_dir = dir;
             _requires_refresh = true;
@@ -143,6 +146,8 @@ void browse_popup::setup_file_widgets()
 {    
     for(auto& file : _current_files)
     {
+        auto* icon = add_widget<guim::image>("##iconf", "res/file.png", ImVec2(16, 16));
+        icon->sameline = true;
         auto* ptr = add_widget<guim::selectable>(file.filename().string().c_str());
         ptr->color_background = guim::color(0, 0, 0, 0);
         ptr->add_callback([&]()
