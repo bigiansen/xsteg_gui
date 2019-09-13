@@ -3,6 +3,7 @@
 #include <guim/button.hpp>
 #include <guim/text_input.hpp>
 #include <guim/window.hpp>
+#include "threshold_editor.hpp"
 
 class encode_window final : public guim::window
 {
@@ -13,6 +14,7 @@ private:
     guim::button* _btn_browse_ii = nullptr;
     guim::button* _btn_browse_oi = nullptr;
     guim::button* _btn_browse_df = nullptr;
+    threshold_editor* _th_editor = nullptr;
     
 public:
     encode_window(ImVec2 size = ImVec2(0, 0));

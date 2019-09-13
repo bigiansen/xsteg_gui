@@ -11,6 +11,7 @@ SET(GUIM_SOURCES
     src/msg_popup.cpp
     src/popup.cpp
     src/selectable.cpp
+    src/separator.cpp
     src/text.cpp
     src/text_input.cpp
     src/texture.cpp
@@ -32,6 +33,7 @@ SET(GUIM_HEADERS
     include/guim/msg_popup.hpp
     include/guim/popup.hpp
     include/guim/selectable.hpp
+    include/guim/separator.hpp
     include/guim/text.hpp
     include/guim/text_input.hpp
     include/guim/texture.hpp

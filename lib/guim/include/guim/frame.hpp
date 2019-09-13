@@ -6,7 +6,7 @@
 
 namespace guim
 {
-    class frame final 
+    class frame 
         : public container
         , public traits::border
     {
