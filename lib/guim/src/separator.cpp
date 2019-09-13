@@ -8,6 +8,9 @@ namespace guim
 
     void separator::update()
     {
-        ImGui::Separator();
+        if(enabled)
+        {
+            ImGui::Separator();
+        }
     }
 }

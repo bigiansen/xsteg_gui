@@ -1,7 +1,32 @@
 #include "threshold_editor.hpp"
 
 #include <guim/button.hpp>
+#include <guim/combo.hpp>
 #include <guim/separator.hpp>
+#include <guim/text.hpp>
+
+const static ImVec4 COLOR_RED(0.5F, 0.2F, 0.2F, 1.0F);
+const static ImVec4 COLOR_GREEN(0.2F, 0.5F, 0.2F, 1.0F);
+const static ImVec4 COLOR_BLUE(0.2F, 0.2F, 0.5F, 1.0F);
+const static ImVec4 COLOR_GRAY(0.3F, 0.3F, 0.3F, 1.0F);
+
+static char* data_types[] = {
+    "VALUE_RED",    "VALUE_GREEN",  "VALUE_BLUE", 
+    "SATURATION",   "LUMINANCE",    "SATURATION",
+    "ALPHA",        "AVERAGE_RGBA", "AVERAGE_RGB"
+};
+
+static std::array<std::string, 9> data_types_arr = 
+{
+    "VALUE_RED",    "VALUE_GREEN",  "VALUE_BLUE", 
+    "SATURATION",   "LUMINANCE",    "SATURATION",
+    "ALPHA",        "AVERAGE_RGBA", "AVERAGE_RGB"
+};
+
+static const char* directions[2] = {
+    "UP",
+    "DOWN"
+};
 
 threshold_view::threshold_view(
     const std::string& label,
@@ -10,44 +35,29 @@ threshold_view::threshold_view(
     ImVec2 sz)
     : frame(label, sz)
     , _threshold(thres)
-    , _threshold_idx(thres_idx)
-{ }
-
-const static ImVec4 COLOR_RED(0.5F, 0.2F, 0.2F, 1.0F);
-const static ImVec4 COLOR_GREEN(0.2F, 0.5F, 0.2F, 1.0F);
-const static ImVec4 COLOR_BLUE(0.2F, 0.2F, 0.5F, 1.0F);
-const static ImVec4 COLOR_GRAY(0.3F, 0.3F, 0.3F, 1.0F);
+    , threshold_idx(thres_idx)
+{
+    guim::text* idx_label = add_widget<guim::text>("[" + std::to_string(threshold_idx) +"]:");
+    idx_label->sameline = true;
+    
+    std::string combo_label = "##data_type_combo" + std::to_string(threshold_idx);
+    guim::combo* combo = add_widget<guim::combo>(combo_label, (int*)&_threshold->data_type);
+    combo->add_items(data_types_arr);
+    combo->set_size(ImVec2(128, 0));
+}
 
 void threshold_view::update()
 {
-    static char* data_types[] = {
-        "VALUE_RED",    "VALUE_GREEN",  "VALUE_BLUE", 
-        "SATURATION",   "LUMINANCE",    "SATURATION",
-        "ALPHA",        "AVERAGE_RGBA", "AVERAGE_RGB"
-    };
-    ImGui::Text("[%d]:", _threshold_idx);
+    container::update();
 
-    ImGui::PushItemWidth(128);
-    std::string combo_label = "##combo_data_type_" + std::to_string(_threshold_idx);
-    ImGui::Combo(combo_label.c_str(), (int*)&_threshold->data_type, data_types, 9);
-    ImGui::SameLine();
-
-    static const char* directions[2] = {
-        "UP",
-        "DOWN"
-    };
-
-    const std::string dir_label = "##dir_" + std::to_string(_threshold_idx);
-    ImGui::Combo(dir_label.c_str(), (int*)&_threshold->direction, directions, 2);
-    ImGui::PopItemWidth();
     ImGui::SameLine();
     ImGui::Spacing();
     ImGui::SameLine();
 
-    const std::string input_r = "##r_" + std::to_string(_threshold_idx);
-    const std::string input_g = "##g_" + std::to_string(_threshold_idx);
-    const std::string input_b = "##b_" + std::to_string(_threshold_idx);
-    const std::string input_a = "##a_" + std::to_string(_threshold_idx);
+    const std::string input_r = "##r_" + std::to_string(threshold_idx);
+    const std::string input_g = "##g_" + std::to_string(threshold_idx);
+    const std::string input_b = "##b_" + std::to_string(threshold_idx);
+    const std::string input_a = "##a_" + std::to_string(threshold_idx);
 
     std::string sr = (_threshold->bits.r <= -1)
         ? "-" : std::to_string(std::clamp(_threshold->bits.r, 0, 7));
@@ -88,12 +98,12 @@ void threshold_view::update()
     ImGui::SameLine();
     
     ImGui::PushItemWidth(128);
-    const std::string valstr = "##value_" + std::to_string(_threshold_idx);
+    const std::string valstr = "##value_" + std::to_string(threshold_idx);
     ImGui::SliderFloat(valstr.c_str(), &_threshold->value, 0, 1);
     ImGui::PopItemWidth();
     ImGui::SameLine();
     ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button, ImVec4(0.8F, 0.25F, 0.25F, 1));
-    if(ImGui::Button((" - ##" + std::to_string(_threshold_idx)).c_str()))
+    if(ImGui::Button((" - ##" + std::to_string(threshold_idx)).c_str()))
     {
         delete_pending = true;
     }
@@ -108,28 +118,23 @@ threshold_editor::threshold_editor(const std::string& label, ImVec2 size)
 
 void threshold_editor::update()
 {
-    bool regen = false;
-    _widgets.clear();
-    _threshold_views.clear();
-
-    for(auto it = _threshold_views.begin(); it != _threshold_views.end(); ++it)
+    for(auto& th_view : _threshold_views)
     {
-        if((*it)->delete_pending)
+        if(th_view->delete_pending)
         {
-            regen = true;
-            auto itv = std::find(_thresholds.begin(), _thresholds.end(), [&](auto& th)
-            {
-                &th == (*it).get();
-            });
-            if(itv != _thresholds.end())
-            {
-                _thresholds.erase(itv);
-            }
+            int idx = th_view->threshold_idx;
+            _thresholds.erase(_thresholds.begin() + idx);
+            _regen = true;
+            break;
         }
     }
 
-    if(regen)
+    if(_regen)
     {
+        _regen = false;
+        _widgets.clear();
+        _threshold_views.clear();
+
         int idx = 0;
         for(auto& th : _thresholds)
         {
@@ -144,6 +149,7 @@ void threshold_editor::update()
         *button += [&]()
         {
             _thresholds.push_back(xsteg::availability_threshold());
+            _regen = true;
         };
     }
 

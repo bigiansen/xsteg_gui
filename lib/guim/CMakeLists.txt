@@ -4,6 +4,7 @@ SET(GUIM_SOURCES
     src/appwindow.cpp
     src/button.cpp
     src/color.cpp
+    src/combo.cpp
     src/container.cpp
     src/context.cpp
     src/frame.cpp
@@ -26,6 +27,7 @@ SET(GUIM_HEADERS
     include/guim/appwindow.hpp
     include/guim/button.hpp
     include/guim/color.hpp
+    include/guim/combo.hpp
     include/guim/container.hpp
     include/guim/context.hpp
     include/guim/frame.hpp
