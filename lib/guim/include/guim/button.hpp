@@ -24,7 +24,11 @@ namespace guim
         std::vector<button_click_callback_t> _callbacks;
 
     public:
-        button(const std::string& text, ImVec2 size = ImVec2(0, 0));
+        template<typename TString>
+        button(TString&& text, ImVec2 size = ImVec2(0, 0))
+            : widget(size)
+            , _text(std::forward<TString>(text))
+        { }
         
         void operator+=(button_click_callback_t);
         void add_callback(button_click_callback_t);

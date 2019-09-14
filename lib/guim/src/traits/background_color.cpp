@@ -7,6 +7,7 @@ namespace guim::traits
         if(color_background)
         {
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_ChildBg, *color_background);
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, *color_background);
         }
     }
 
@@ -14,7 +15,7 @@ namespace guim::traits
     {
         if(color_background)
         {
-            ImGui::PopStyleColor(1);
+            ImGui::PopStyleColor(2);
         }
     }
 }

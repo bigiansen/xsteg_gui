@@ -8,7 +8,7 @@ namespace guim
         {
             if(_size.x > 0)            
             {
-                ImGui::SetNextItemWidth(128);
+                ImGui::SetNextItemWidth(_size.x);
             }
             ImGui::Combo(
                 _label.c_str(), 
@@ -22,6 +22,7 @@ namespace guim
                 (void*)&_items,
                 (int)_items.size()
             );
+            if(sameline) { ImGui::SameLine(); }
         }
     }
 }

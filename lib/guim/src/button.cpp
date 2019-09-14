@@ -2,11 +2,6 @@
 
 namespace guim
 {
-    button::button(const std::string& text, ImVec2 size)
-        : _text(text)
-        , widget(size)
-    { }
-
     void button::operator+=(button_click_callback_t cback)
     {
         _callbacks.push_back(cback);

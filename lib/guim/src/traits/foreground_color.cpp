@@ -6,7 +6,7 @@ namespace guim::traits
     {
         if(color_foreground)
         {
-            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Text, *color_foreground);
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Text, *color_foreground);            
         }
     }
 
