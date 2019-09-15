@@ -9,14 +9,13 @@ namespace guim
 
     void float_slider::update()
     {
-        if(enabled)
+		if(!enabled) { return; }
+        
+        if(_size.x > 0)
         {
-            if(_size.x > 0)
-            {
-                ImGui::SetNextItemWidth(_size.x);
-            }
-            ImGui::SliderFloat(_label.c_str(), &_value, _min_value, _max_value);
-            if(sameline) { ImGui::SameLine(); }
+            ImGui::SetNextItemWidth(_size.x);
         }
+        ImGui::SliderFloat(_label.c_str(), &_value, _min_value, _max_value);
+        if(sameline) { ImGui::SameLine(); }        
     }
 }

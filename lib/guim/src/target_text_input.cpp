@@ -6,17 +6,16 @@ namespace guim
 {
     void target_text_input::update()
     {
-        if(enabled)
-        {
-            background_color.push();
-            foreground_color.push();
+		if(!enabled) { return; }
+        
+        background_color.push();
+        foreground_color.push();
 
-            ImGui::InputText(_label.c_str(), _target);
+        ImGui::InputText(_label.c_str(), _target);
 
-            background_color.pop();
-            foreground_color.pop();
+        background_color.pop();
+        foreground_color.pop();
             
-            if(sameline) { ImGui::SameLine(); }
-        }
+        if(sameline) { ImGui::SameLine(); }        
     }
 }

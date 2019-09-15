@@ -10,11 +10,10 @@ namespace guim
 
     void image::update()
     {
-        if(enabled)
-        {
-            texture_id_t tex_id = get_texture_id(_img_fname);
-            ImGui::Image((void*)(intptr_t)tex_id, _size);
-            if(sameline) { ImGui::SameLine(); }
-        }
+		if(!enabled) { return; }
+        
+        texture_id_t tex_id = get_texture_id(_img_fname);
+        ImGui::Image((void*)(intptr_t)tex_id, _size);
+        if(sameline) { ImGui::SameLine(); }        
     }
 }

@@ -14,21 +14,20 @@ namespace guim
 
     void popup::update()
     {
-        if(enabled)
+		if(!enabled) { return; }
+        
+		background_color.push();
+		foreground_color.push();
+        if(ImGui::BeginPopupModal(_name.c_str()))
         {
-			background_color.push();
-			foreground_color.push();
-            if(ImGui::BeginPopupModal(_name.c_str()))
+            container::update();
+            if(ImGui::Button("Close"))
             {
-                container::update();
-                if(ImGui::Button("Close"))
-                {
-                    ImGui::CloseCurrentPopup();
-                }
-                ImGui::EndPopup();
+                ImGui::CloseCurrentPopup();
             }
-			background_color.pop();
-			foreground_color.pop();
+            ImGui::EndPopup();
         }
+		background_color.pop();
+		foreground_color.pop();        
     }
 }

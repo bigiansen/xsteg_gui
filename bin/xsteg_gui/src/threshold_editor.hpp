@@ -1,13 +1,25 @@
 #pragma once
 
+#include <guim/button.hpp>
+#include <guim/combo.hpp>
+#include <guim/float_slider.hpp>
 #include <guim/frame.hpp>
+#include <guim/text_input.hpp>
 #include <xsteg/availability_map.hpp>
 #include <vector>
 
 class threshold_view : public guim::frame
 {
 private:
-    xsteg::availability_threshold* _threshold = nullptr;    
+    xsteg::availability_threshold* _threshold = nullptr;
+	guim::combo* _combo_data_type = nullptr;
+	guim::combo* _combo_direction = nullptr;
+	guim::text_input* _txt_bit_r = nullptr;
+	guim::text_input* _txt_bit_g = nullptr;
+	guim::text_input* _txt_bit_b = nullptr;
+	guim::text_input* _txt_bit_a = nullptr;
+	guim::float_slider* _slider_value = nullptr;
+	guim::button* _button_remove = nullptr;
 
 public:
     bool delete_pending = false;
@@ -19,7 +31,12 @@ public:
         int thres_idx,
         ImVec2 size = ImVec2(0, 0));
 
+	void init_widgets();
+
     void update() override;
+
+private:
+	void update_values();
 };
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -32,5 +49,8 @@ private:
     bool _regen = true;
 public:
     threshold_editor(const std::string& label, ImVec2 size = ImVec2(0, 0));
+
     void update() override;
+
+	void regenerate_thresholds();
 };

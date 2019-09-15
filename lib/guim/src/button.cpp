@@ -14,24 +14,23 @@ namespace guim
 
     void button::update()
     {
-        if(enabled)
-        {
-            background_color.push();
-            foreground_color.push();
-            if(ImGui::Button(_label.c_str(), _size)) 
-            { 
-                for (auto& cback : _callbacks)
-                {
-                    cback();
-                }
-            }
-            foreground_color.pop();
-            background_color.pop();
-
-            if(sameline)
+		if (!enabled) { return; }
+        
+        background_color.push();
+        foreground_color.push();
+        if(ImGui::Button(_label.c_str(), _size)) 
+        { 
+            for (auto& cback : _callbacks)
             {
-                ImGui::SameLine();
+                cback();
             }
         }
+        foreground_color.pop();
+        background_color.pop();
+
+        if(sameline)
+        {
+            ImGui::SameLine();
+        }        
     }
 }

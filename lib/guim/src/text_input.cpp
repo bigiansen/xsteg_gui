@@ -15,31 +15,35 @@ namespace guim
 		return _text;
 	}
 
+	void text_input::text(const std::string& txt)
+	{
+		_text = txt;
+	}
+
 	void text_input::update()
 	{		
-		if (enabled)
+		if(!enabled) { return; }
+		
+		background_color.push();
+        foreground_color.push();
+
+		ImGuiInputTextFlags flags = 0;
+		if(_readonly)
 		{
-			background_color.push();
-            foreground_color.push();
-
-			ImGuiInputTextFlags flags = 0;
-			if(_readonly)
-			{
-				flags |= ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly;
-			}
-			if(_size.x > 0)
-			{
-				ImGui::SetNextItemWidth(_size.x);
-			}
-			ImGui::InputText(_label.c_str(), _text.data(), _text.length() + 1, flags);
-
-			background_color.pop();
-            foreground_color.pop();
-			
-			if(sameline)
-			{
-				ImGui::SameLine();
-			}
+			flags |= ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly;
 		}
+		if(_size.x > 0)
+		{
+			ImGui::SetNextItemWidth(_size.x);
+		}
+		ImGui::InputText(_label.c_str(), _text.data(), _text.length() + 1, flags);
+
+		background_color.pop();
+        foreground_color.pop();
+			
+		if(sameline)
+		{
+			ImGui::SameLine();
+		}		
 	}
 }

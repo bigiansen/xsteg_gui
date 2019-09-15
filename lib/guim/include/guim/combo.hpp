@@ -11,11 +11,11 @@ namespace guim
     {
     protected:
         std::vector<std::string> _items;
-        int* _selected_index;
+        int _selected_index = 0;
     
     public:
         template<typename TString, typename = tt::enable_if_stringish<TString>>
-        combo(TString&& label, int* selected_index, ImVec2 size = ImVec2(0, 0))
+        combo(TString&& label, int selected_index = 0, ImVec2 size = ImVec2(0, 0))
             : labeled_widget(std::forward<TString>(label), size)
             , _selected_index(selected_index)
         { }
@@ -40,6 +40,8 @@ namespace guim
             }                  
             return (int)_items.size();
         }
+
+		int selected_index();
 
         void update() override;
     };

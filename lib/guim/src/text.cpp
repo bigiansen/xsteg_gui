@@ -9,16 +9,15 @@ namespace guim
 
     void text::update()
     {
-        if(enabled)
+		if(!enabled) { return; }
+        
+        foreground_color.push();
+        ImGui::SetNextItemWidth(_size.x);
+        ImGui::Text(_text.c_str());
+        foreground_color.pop();
+        if(sameline)
         {
-            foreground_color.push();
-            ImGui::SetNextItemWidth(_size.x);
-            ImGui::Text(_text.c_str());
-            foreground_color.pop();
-            if(sameline)
-            {
-                ImGui::SameLine();
-            }
-        }
+            ImGui::SameLine();
+        }        
     }
 }

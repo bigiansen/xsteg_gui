@@ -9,25 +9,24 @@ namespace guim
 
     void selectable::update()
     {
-        if(enabled)
+		if(!enabled) { return; }
+        
+        background_color.push();
+        foreground_color.push();
+
+        ImGuiSelectableFlags flags = 0;
+        flags |= ImGuiSelectableFlags_::ImGuiSelectableFlags_DontClosePopups;
+        bool selected = false;
+        if(ImGui::Selectable(_label.c_str(), &selected, flags))
         {
-            background_color.push();
-            foreground_color.push();
-
-            ImGuiSelectableFlags flags = 0;
-            flags |= ImGuiSelectableFlags_::ImGuiSelectableFlags_DontClosePopups;
-            bool selected = false;
-            if(ImGui::Selectable(_label.c_str(), &selected, flags))
+            for(auto& cback : _callbacks)
             {
-                for(auto& cback : _callbacks)
-                {
-                    cback();
-                }
+                cback();
             }
-
-            background_color.pop();
-            foreground_color.pop();
         }
+
+        background_color.pop();
+        foreground_color.pop();        
     }
 
     void selectable::operator+=(std::function<void()> cback)

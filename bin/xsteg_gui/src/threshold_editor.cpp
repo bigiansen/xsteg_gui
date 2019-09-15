@@ -33,66 +33,75 @@ threshold_view::threshold_view(
     , _threshold(thres)
     , threshold_idx(thres_idx)
 {
-    std::string th_suffix = std::to_string(threshold_idx);
+	init_widgets();
+}
 
-    // -- Index label --
-    guim::text* idx_label = add_widget<guim::text>("[" + th_suffix +"]:");
-    idx_label->sameline = true;
-    
-    // -- Data type combo --
-    std::string dt_combo_label = "##data_type_combo_" + th_suffix;
-    guim::combo* combo_dt = add_widget<guim::combo>(dt_combo_label, (int*)&_threshold->data_type);
-    combo_dt->add_items(data_types);
-    combo_dt->set_size(ImVec2(96, 0));
-    combo_dt->sameline = true;
+void threshold_view::init_widgets()
+{
+	std::string th_suffix = std::to_string(threshold_idx);
 
-    // -- Direction combo --
-    std::string dir_combo_label = "##direction_combo_" + th_suffix;
-    guim::combo* combo_dir = add_widget<guim::combo>(dir_combo_label, (int*)&_threshold->direction);
-    combo_dir->add_items(directions);
-    combo_dir->set_size(ImVec2(60, 0));
-    combo_dir->sameline = true;
+	// -- Index label --
+	guim::text* idx_label = add_widget<guim::text>("[" + th_suffix + "]:");
+	idx_label->sameline = true;
 
-    // -- Bit selectors --
+	// -- Data type combo --
+	std::string dt_combo_label = "##data_type_combo_" + th_suffix;
+	_combo_data_type = add_widget<guim::combo>(std::move(dt_combo_label), 0);
+	_combo_data_type->add_items(data_types);
+	_combo_data_type->set_size(ImVec2(96, 0));
+	_combo_data_type->sameline = true;
+
+	// -- Direction combo --
+	std::string dir_combo_label = "##direction_combo_" + th_suffix;
+	_combo_direction = add_widget<guim::combo>(std::move(dir_combo_label), 0);
+	_combo_direction->add_items(directions);
+	_combo_direction->set_size(ImVec2(60, 0));
+	_combo_direction->sameline = true;
+
+	// -- Bit selectors --
 	// [R]
-    std::string bit_r_label = "##bit_r_" + th_suffix;
-    guim::text_input* bit_r = add_widget<guim::text_input>(bit_r_label, 1);
-    bit_r->sameline = true;
-    bit_r->set_size(ImVec2(16, 0));
-    bit_r->background_color = COLOR_RED;
+	std::string bit_r_label = "##bit_r_" + th_suffix;
+	_txt_bit_r = add_widget<guim::text_input>(std::move(bit_r_label), 1);
+	_txt_bit_r->sameline = true;
+	_txt_bit_r->set_size(ImVec2(16, 0));
+	_txt_bit_r->background_color = COLOR_RED;
+	_txt_bit_r->text("-");
 
 	// [G]
-    std::string bit_g_label = "##bit_g_" + th_suffix;
-    guim::text_input* bit_g = add_widget<guim::text_input>(bit_g_label, 1);
-    bit_g->sameline = true;
-    bit_g->set_size(ImVec2(16, 0));
-    bit_g->background_color = COLOR_GREEN;
+	std::string bit_g_label = "##bit_g_" + th_suffix;
+	_txt_bit_g = add_widget<guim::text_input>(std::move(bit_g_label), 1);
+	_txt_bit_g->sameline = true;
+	_txt_bit_g->set_size(ImVec2(16, 0));
+	_txt_bit_g->background_color = COLOR_GREEN;
+	_txt_bit_g->text("-");
 
 	// [B]
-    std::string bit_b_label = "##bit_b_" + th_suffix;
-    guim::text_input* bit_b = add_widget<guim::text_input>(bit_b_label, 1);
-    bit_b->sameline = true;
-    bit_b->set_size(ImVec2(16, 0));
-    bit_b->background_color = COLOR_BLUE;
+	std::string bit_b_label = "##bit_b_" + th_suffix;
+	_txt_bit_b = add_widget<guim::text_input>(std::move(bit_b_label), 1);
+	_txt_bit_b->sameline = true;
+	_txt_bit_b->set_size(ImVec2(16, 0));
+	_txt_bit_b->background_color = COLOR_BLUE;
+	_txt_bit_b->text("-");
 
 	// [A]
-    std::string bit_a_label = "##bit_a_" + th_suffix;
-    guim::text_input* bit_a = add_widget<guim::text_input>(bit_a_label, 1);
-    bit_a->sameline = true;
-    bit_a->set_size(ImVec2(16, 0));
-    bit_a->background_color = COLOR_GRAY;
+	std::string bit_a_label = "##bit_a_" + th_suffix;
+	_txt_bit_a = add_widget<guim::text_input>(std::move(bit_a_label), 1);
+	_txt_bit_a->sameline = true;
+	_txt_bit_a->set_size(ImVec2(16, 0));
+	_txt_bit_a->background_color = COLOR_GRAY;
+	_txt_bit_a->text("-");
 
 	// -- Value slider --
-    std::string slider_label = "##value_slider_"  + th_suffix;
-	guim::float_slider* slider = add_widget<guim::float_slider>(slider_label, 0.0F, 1.0F, 0.0F);
-	slider->set_size(ImVec2(128, 0));
-	slider->sameline = true;
+	std::string slider_label = "##value_slider_" + th_suffix;
+	_slider_value = add_widget<guim::float_slider>(slider_label, 0.0F, 1.0F, 0.0F);
+	_slider_value->set_size(ImVec2(128, 0));
+	_slider_value->sameline = true;
 
 	// -- Remove button --
 	std::string button_txt = (" - ##" + std::to_string(threshold_idx));
-	guim::button* remove_button = add_widget<guim::button>(button_txt, ImVec2(32, 0));
-	remove_button->background_color = guim::color(0.8F, 0.25F, 0.25F, 1);
-	remove_button->add_callback([&]()
+	_button_remove = add_widget<guim::button>(button_txt, ImVec2(32, 0));
+	_button_remove->background_color = guim::color(0.8F, 0.25F, 0.25F, 1);
+	_button_remove->add_callback([&]()
 	{
 		delete_pending = true;
 	});
@@ -101,6 +110,36 @@ threshold_view::threshold_view(
 void threshold_view::update()
 {
     container::update();
+	update_values();
+}
+
+void threshold_view::update_values()
+{
+	using data_type_t = decltype(_threshold->data_type);
+	using direction_t = decltype(_threshold->direction);
+
+	_threshold->value = _slider_value->value();
+	_threshold->direction = static_cast<direction_t>(_combo_direction->selected_index());
+	_threshold->data_type = static_cast<data_type_t>(_combo_data_type->selected_index());
+	
+	auto get_bit_value = [](const std::string& str) -> int
+	{
+		if (str.size() == 0)
+		{
+			return -1;
+		}
+		char ch = str[0];
+		if (ch == '-' || ch == '_')
+		{
+			return -1;
+		}
+		return std::clamp(std::atoi(str.c_str()), 0, 7);
+	};
+
+	_threshold->bits.r = get_bit_value(_txt_bit_r->text());
+	_threshold->bits.g = get_bit_value(_txt_bit_g->text());
+	_threshold->bits.b = get_bit_value(_txt_bit_b->text());
+	_threshold->bits.a = get_bit_value(_txt_bit_a->text());
 }
 
 threshold_editor::threshold_editor(const std::string& label, ImVec2 size)
@@ -122,27 +161,32 @@ void threshold_editor::update()
 
     if(_regen)
     {
-        _regen = false;
-        _widgets.clear();
-        _threshold_views.clear();
-
-        int idx = 0;
-        for(auto& th : _thresholds)
-        {
-            _threshold_views.push_back(
-                add_widget<threshold_view>("##thres_1234" + std::to_string(idx), &th, idx)
-            );
-            add_widget<guim::separator>();
-            ++idx;
-        }
-
-        auto* button = add_widget<guim::button>(std::string("+"));
-        *button += [&]()
-        {
-            _thresholds.push_back(xsteg::availability_threshold());
-            _regen = true;
-        };
+		regenerate_thresholds();
     }
 
     frame::update();
+}
+
+void threshold_editor::regenerate_thresholds()
+{
+	_regen = false;
+	_widgets.clear();
+	_threshold_views.clear();
+
+	int idx = 0;
+	for (auto& th : _thresholds)
+	{
+		_threshold_views.push_back(
+			add_widget<threshold_view>("##thres_1234" + std::to_string(idx), &th, idx)
+		);
+		add_widget<guim::separator>();
+		++idx;
+	}
+
+	auto* button = add_widget<guim::button>(std::string("+"));
+	*button += [&]()
+	{
+		_thresholds.push_back(xsteg::availability_threshold());
+		_regen = true;
+	};
 }
