@@ -114,13 +114,13 @@ void browse_popup::refresh_current_directory()
                     _current_files.push_back(entry);
                 }
             }
-            catch(stdfs::filesystem_error)
+            catch(const stdfs::filesystem_error&)
             {
                 banned_paths.emplace(entry);
             }
         }
     }
-    catch(stdfs::filesystem_error e)
+    catch(const stdfs::filesystem_error& e)
     {
         exit(e.code().value());
     }
