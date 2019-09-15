@@ -18,7 +18,7 @@ namespace guim
         {
             background_color.push();
             foreground_color.push();
-            if(ImGui::Button(_text.c_str(), _size)) 
+            if(ImGui::Button(_label.c_str(), _size)) 
             { 
                 for (auto& cback : _callbacks)
                 {

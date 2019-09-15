@@ -13,6 +13,7 @@ namespace guim::traits
         {
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_ChildBg, *_color);
             ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, *_color);
+			ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button, *_color);
         }
     }
 
@@ -20,7 +21,7 @@ namespace guim::traits
     {
         if(_color)
         {
-            ImGui::PopStyleColor(2);
+            ImGui::PopStyleColor(3);
         }
     }
 

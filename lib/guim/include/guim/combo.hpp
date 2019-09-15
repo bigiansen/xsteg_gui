@@ -1,24 +1,22 @@
 #pragma once
 
-#include <guim/widget.hpp>
+#include <guim/labeled_widget.hpp>
+#include <guim/type_traits.hpp>
 #include <vector>
 #include <string>
-#include <guim/type_traits.hpp>
 
 namespace guim
 {
-    class combo : public widget
+    class combo : public labeled_widget
     {
     protected:
         std::vector<std::string> _items;
-        std::string _label;
         int* _selected_index;
     
     public:
-        template<typename TString, typename = tt::enable_if_string<TString>>
+        template<typename TString, typename = tt::enable_if_stringish<TString>>
         combo(TString&& label, int* selected_index, ImVec2 size = ImVec2(0, 0))
-            : widget(size)
-            , _label(std::forward<TString&&>(label))
+            : labeled_widget(label, size)
             , _selected_index(selected_index)
         { }
 

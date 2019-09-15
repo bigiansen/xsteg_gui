@@ -11,9 +11,9 @@ main_window::main_window(guim::appwindow* appwnd)
 void main_window::update()
 {
     static bool first_time = true;
-    static guim::button* button_encode = add_widget<guim::button>("Encode");
-    static guim::button* button_decode = add_widget<guim::button>("Decode");
-    static guim::button* button_genmaps = add_widget<guim::button>("Generate maps");
+    static guim::button* button_encode = add_widget<guim::button>(std::string("Encode"));
+    static guim::button* button_decode = add_widget<guim::button>(std::string("Decode"));
+    static guim::button* button_genmaps = add_widget<guim::button>(std::string("Generate maps"));
     static encode_window* encode_win = nullptr;
 
     if(enabled)

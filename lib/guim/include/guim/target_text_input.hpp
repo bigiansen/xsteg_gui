@@ -2,13 +2,13 @@
 
 #include <guim/traits/background_color.hpp>
 #include <guim/traits/foreground_color.hpp>
+#include <guim/labeled_widget.hpp>
 #include <guim/type_traits.hpp>
-#include <guim/widget.hpp>
 #include <string>
 
 namespace guim
 {
-    class target_text_input : public widget
+    class target_text_input : public labeled_widget
     {
     protected:
         std::string _label;
@@ -19,13 +19,13 @@ namespace guim
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
-        template<typename TString, typename = tt::enable_if_string<TString>>
+        template<typename TString, typename = tt::enable_if_stringish<TString>>
         target_text_input(
             TString&& label, 
             std::string* target,
             size_t max_len, 
             ImVec2 size = ImVec2(0, 0))
-            : _label(std::forward(label))
+            : labeled_widget(label, size)
             , _target(target)
             , _max_len(max_len)
         { }

@@ -1,3 +1,9 @@
+if(MSVC)
+	add_definitions(/W0)
+else()
+	add_definitions(-w)
+endif()
+
 add_subdirectory(imgui)
 
 option(GLFW_BUILD_EXAMPLES "Build the GLFW example programs" OFF)

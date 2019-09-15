@@ -7,6 +7,7 @@ SET(GUIM_SOURCES
     src/combo.cpp
     src/container.cpp
     src/context.cpp
+    src/float_slider.cpp
     src/frame.cpp
     src/image.cpp
     src/msg_popup.cpp
@@ -23,7 +24,6 @@ SET(GUIM_SOURCES
 
 SET(GUIM_HEADERS
     include/guim/traits/background_color.hpp
-    include/guim/traits/border.hpp
     include/guim/traits/foreground_color.hpp
     include/guim/appwindow.hpp
     include/guim/button.hpp
@@ -31,8 +31,10 @@ SET(GUIM_HEADERS
     include/guim/combo.hpp
     include/guim/container.hpp
     include/guim/context.hpp
+    include/guim/float_slider.hpp
     include/guim/frame.hpp
     include/guim/image.hpp
+	include/guim/labeled_widget.hpp
     include/guim/msg_popup.hpp
     include/guim/popup.hpp
     include/guim/selectable.hpp
@@ -41,6 +43,7 @@ SET(GUIM_HEADERS
     include/guim/text.hpp
     include/guim/text_input.hpp
     include/guim/texture.hpp
+	include/guim/type_traits.hpp
     include/guim/widget.hpp
     include/guim/window.hpp
 )

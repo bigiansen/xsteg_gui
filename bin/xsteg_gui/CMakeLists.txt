@@ -8,7 +8,13 @@ SET(XSTEG_GUI_SOURCES
 )
 
 SET(XSTEG_GUI_HEADERS
-	src/*.hpp)
+	src/application.hpp
+	src/browse_popup.hpp
+	src/encode_window.hpp
+	src/main_window.hpp
+	src/std_filesystem.hpp
+	src/threshold_editor.hpp
+)
 
 SET(XSTEG_GUI_ADDITIONAL_LIBS "")
 
@@ -18,7 +24,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	endif()
 endif()
 
-add_executable(xsteg.gui ${XSTEG_GUI_SOURCES})
+add_executable(xsteg.gui ${XSTEG_GUI_SOURCES} ${XSTEG_GUI_HEADERS})
 target_link_libraries(xsteg.gui xsteg.core guim ${XSTEG_GUI_ADDITIONAL_LIBS})
 
 FILE(COPY res DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

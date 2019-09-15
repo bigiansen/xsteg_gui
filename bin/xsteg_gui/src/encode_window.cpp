@@ -5,7 +5,7 @@
 
 encode_window::encode_window(ImVec2 sz)
     : window("encode_window", sz)
-{ 
+{
     _ti_input_image = add_widget<guim::text_input>("##ti_ii");
     _btn_browse_ii = add_widget<guim::button>("Browse...##_ii");
 
@@ -20,7 +20,7 @@ encode_window::encode_window(ImVec2 sz)
 
     _ti_input_image->sameline = true;
     _ti_output_image->sameline = true;
-    _ti_data_file->sameline = true;    
+    _ti_data_file->sameline = true;
 
     ImVec2 browse_popup_size = ImVec2(_size.x * 0.8F, _size.y * 0.8F);
 
