@@ -17,6 +17,9 @@ namespace guim
 		bool _readonly = false;
 
 	public:
+		traits::background_color background_color;
+		traits::foreground_color foreground_color;
+
 		text_input(const std::string& label_id, size_t max_size = 255);
 
 		void readonly(bool readonly);

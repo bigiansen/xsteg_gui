@@ -19,8 +19,8 @@ namespace guim
 	{		
 		if (enabled)
 		{
-			background_color::push();
-            foreground_color::push();
+			background_color.push();
+            foreground_color.push();
 
 			ImGuiInputTextFlags flags = 0;
 			if(_readonly)
@@ -33,8 +33,8 @@ namespace guim
 			}
 			ImGui::InputText(_label.c_str(), _text.data(), _text.length() + 1, flags);
 
-			background_color::pop();
-            foreground_color::pop();
+			background_color.pop();
+            foreground_color.pop();
 			
 			if(sameline)
 			{

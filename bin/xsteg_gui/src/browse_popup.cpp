@@ -148,7 +148,7 @@ void browse_popup::setup_file_widgets()
         auto* icon = add_widget<guim::image>("##iconf", "res/file.png", ImVec2(16, 16));
         icon->sameline = true;
         auto* ptr = add_widget<guim::selectable>(file.filename().u8string());
-        ptr->color_background = guim::color(0, 0, 0, 0);
+        ptr->background_color = guim::color(0, 0, 0, 0);
         ptr->add_callback([&]()
         {
             if(_mode == browse_popup_mode::FILE_SELECT)

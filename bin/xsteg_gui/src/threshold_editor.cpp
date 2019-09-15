@@ -55,26 +55,26 @@ threshold_view::threshold_view(
     guim::text_input* bit_r = add_widget<guim::text_input>(bit_r_label, 1);
     bit_r->sameline = true;
     bit_r->set_size(ImVec2(16, 0));
-    bit_r->color_background = COLOR_RED;
+    bit_r->background_color = COLOR_RED;
 
     std::string bit_g_label = "##bit_g_" + std::to_string(threshold_idx);
     guim::text_input* bit_g = add_widget<guim::text_input>(bit_g_label, 1);
     bit_g->sameline = true;
     bit_g->set_size(ImVec2(16, 0));
-    bit_g->color_background = COLOR_GREEN;
+    bit_g->background_color = COLOR_GREEN;
 
     std::string bit_b_label = "##bit_b_" + std::to_string(threshold_idx);
     guim::text_input* bit_b = add_widget<guim::text_input>(bit_b_label, 1);
     bit_b->sameline = true;
     bit_b->set_size(ImVec2(16, 0));
-    bit_b->color_background = COLOR_BLUE;
+    bit_b->background_color = COLOR_BLUE;
 
 
     std::string bit_a_label = "##bit_a_" + std::to_string(threshold_idx);
     guim::text_input* bit_a = add_widget<guim::text_input>(bit_a_label, 1);
     bit_a->sameline = true;
     bit_a->set_size(ImVec2(16, 0));
-    bit_a->color_background = COLOR_GRAY;
+    bit_a->background_color = COLOR_GRAY;
 }
 
 void threshold_view::update()
