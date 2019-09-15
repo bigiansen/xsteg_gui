@@ -9,10 +9,10 @@ namespace guim::tt
     constexpr bool is_same_decay = std::is_same_v<std::decay_t<T1>, std::decay_t<T2>>;
 
     template<typename T1, typename T2>
-    using enable_if_is_type = typename std::enable_if_t<is_same_decay<T1, T2>>;
+    using enable_if_is_type = std::enable_if_t<is_same_decay<T1, T2>>;
 
     template<typename T>
-    using enable_if_string = typename enable_if_is_type<T, std::string>;
+    using enable_if_string = enable_if_is_type<T, std::string>;
 
 	template<typename T>
 	constexpr bool is_string = is_same_decay<T, std::string>;
