@@ -7,6 +7,9 @@ SET(XSTEG_GUI_SOURCES
 	src/threshold_editor.cpp
 )
 
+SET(XSTEG_GUI_HEADERS
+	src/*.hpp)
+
 SET(XSTEG_GUI_ADDITIONAL_LIBS "")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

@@ -16,6 +16,8 @@ namespace guim
     {
         if(enabled)
         {
+			background_color.push();
+			foreground_color.push();
             if(ImGui::BeginPopupModal(_name.c_str()))
             {
                 container::update();
@@ -25,6 +27,8 @@ namespace guim
                 }
                 ImGui::EndPopup();
             }
+			background_color.pop();
+			foreground_color.pop();
         }
     }
 }

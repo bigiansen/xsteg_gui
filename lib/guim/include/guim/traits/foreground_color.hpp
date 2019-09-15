@@ -1,15 +1,28 @@
 #pragma once
 
 #include <guim/color.hpp>
+#include <guim/type_traits.hpp>
 #include <optional>
+#include <utility>
 
 namespace guim::traits
 {
-    struct foreground_color
-    {
-        std::optional<color> color_foreground;
+	class foreground_color
+	{
+	private:
+		std::optional<color> _color;
 
-        void push();
-        void pop();
-    };
+	public:
+		void reset();
+		void push();
+		void pop();
+
+		template<typename TColor, typename = tt::enable_if_is_type<TColor, color>>
+		void operator=(TColor&& col)
+		{
+			_color = std::forward<TColor>(col);
+		}
+
+		color* operator->();
+	};
 }

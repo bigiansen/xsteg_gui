@@ -18,7 +18,7 @@ namespace guim
         ImGui_ImplGlfw_InitForOpenGL(_wnd->wnd_ptr(), true);
         ImGui_ImplOpenGL3_Init(glsl_version.c_str());
 
-        color_background = color(0.20f, 0.25f, 0.30f, 1.00f);
+		background_color = color(0.20f, 0.25f, 0.30f, 1.00f);
     }
 
     void context::start(std::function<void(void)> main_loop)
@@ -40,10 +40,10 @@ namespace guim
             glfwGetFramebufferSize(_wnd->wnd_ptr(), &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
             glClearColor(
-                color_background->r, 
-                color_background->g, 
-                color_background->b, 
-                color_background->a);
+                background_color->r, 
+                background_color->g, 
+                background_color->b, 
+                background_color->a);
             glClear(GL_COLOR_BUFFER_BIT);
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

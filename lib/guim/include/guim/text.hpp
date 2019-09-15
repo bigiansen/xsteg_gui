@@ -6,14 +6,14 @@
 
 namespace guim
 {
-    class text 
-        : public widget
-        , public traits::foreground_color
+    class text : public widget
     {
     protected:
         std::string _text;
 
     public:
+		traits::foreground_color foreground_color;
+
         text(const std::string& text, ImVec2 size = ImVec2(0, 0));
         virtual void update() override;
     };

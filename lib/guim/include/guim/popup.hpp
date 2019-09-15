@@ -7,15 +7,14 @@
 
 namespace guim
 {
-    class popup
-        : public container
-        , public traits::background_color
-        , public traits::foreground_color
+    class popup : public container
     {
     protected:
         std::string _name;
 
     public:
+		traits::background_color background_color;
+		traits::foreground_color foreground_color;
 
         popup(const std::string& title_label, ImVec2 size = ImVec2(0, 0));
         void show();

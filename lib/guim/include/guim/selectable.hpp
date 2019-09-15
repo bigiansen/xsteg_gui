@@ -9,16 +9,16 @@
 
 namespace guim
 {
-    class selectable 
-        : public widget
-        , public traits::background_color
-        , public traits::foreground_color
+    class selectable : public widget
     {
     protected:
         std::string _label;
         std::vector<std::function<void()>> _callbacks;
 
     public:
+		traits::background_color background_color;
+		traits::foreground_color foreground_color;
+
         selectable(const std::string& label);
         virtual void update() override;
 

@@ -11,8 +11,8 @@ namespace guim
     {
         if(enabled)
         {
-            background_color::push();
-            foreground_color::push();
+            background_color.push();
+            foreground_color.push();
 
             ImGuiSelectableFlags flags = 0;
             flags |= ImGuiSelectableFlags_::ImGuiSelectableFlags_DontClosePopups;
@@ -25,8 +25,8 @@ namespace guim
                 }
             }
 
-            background_color::pop();
-            foreground_color::pop();
+            background_color.pop();
+            foreground_color.pop();
         }
     }
 

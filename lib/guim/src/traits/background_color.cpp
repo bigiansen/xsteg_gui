@@ -2,20 +2,30 @@
 
 namespace guim::traits
 {
+	void background_color::reset()
+	{
+		_color.reset();
+	}
+
     void background_color::push()
     {
-        if(color_background)
+        if(_color)
         {
-            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_ChildBg, *color_background);
-            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, *color_background);
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_ChildBg, *_color);
+            ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_FrameBg, *_color);
         }
     }
 
     void background_color::pop()
     {
-        if(color_background)
+        if(_color)
         {
             ImGui::PopStyleColor(2);
         }
     }
+
+	color* background_color::operator->()
+	{
+		return &(*_color);
+	}
 }

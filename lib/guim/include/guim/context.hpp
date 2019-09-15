@@ -15,11 +15,11 @@
 namespace guim
 {
     class context
-        : traits::background_color
     {
     private:
         appwindow* _wnd;
         ImGuiIO* _io;
+		traits::background_color background_color;
 
     public:
         context(appwindow*);

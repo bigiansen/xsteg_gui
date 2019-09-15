@@ -9,10 +9,7 @@
 
 namespace guim
 {
-	class text_input 
-		: public widget
-		, public traits::background_color
-		, public traits::foreground_color
+	class text_input : public widget
 	{
 	protected:
 		std::string _label;

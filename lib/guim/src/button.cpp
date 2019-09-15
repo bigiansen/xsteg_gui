@@ -16,8 +16,8 @@ namespace guim
     {
         if(enabled)
         {
-            background_color::push();
-            foreground_color::push();
+            background_color.push();
+            foreground_color.push();
             if(ImGui::Button(_text.c_str(), _size)) 
             { 
                 for (auto& cback : _callbacks)
@@ -25,8 +25,8 @@ namespace guim
                     cback();
                 }
             }
-            foreground_color::pop();
-            background_color::pop();
+            foreground_color.pop();
+            background_color.pop();
 
             if(sameline)
             {
