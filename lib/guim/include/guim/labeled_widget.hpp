@@ -18,7 +18,7 @@ namespace guim
 		{ 
 			if constexpr (tt::is_cstring<TString>)
 			{
-				_label = std::string(label);
+				_label = std::string(std::forward<TString>(label));
 			}
 			else
 			{

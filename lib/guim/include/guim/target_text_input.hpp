@@ -25,7 +25,7 @@ namespace guim
             std::string* target,
             size_t max_len, 
             ImVec2 size = ImVec2(0, 0))
-            : labeled_widget(label, size)
+            : labeled_widget(std::forward<TString>(label), size)
             , _target(target)
             , _max_len(max_len)
         { }

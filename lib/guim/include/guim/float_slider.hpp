@@ -16,7 +16,7 @@ namespace guim
     public:
         template<typename TString, typename = tt::enable_if_stringish<TString>>
         float_slider(TString&& label, float min, float max, float init_value = 0.0F, ImVec2 size = ImVec2(0, 0))
-            : labeled_widget(label, size)
+            : labeled_widget(std::forward<TString>(label), size)
             , _min_value(min)
             , _max_value(max)
             , _value(init_value)

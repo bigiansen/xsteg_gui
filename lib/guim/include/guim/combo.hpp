@@ -16,7 +16,7 @@ namespace guim
     public:
         template<typename TString, typename = tt::enable_if_stringish<TString>>
         combo(TString&& label, int* selected_index, ImVec2 size = ImVec2(0, 0))
-            : labeled_widget(label, size)
+            : labeled_widget(std::forward<TString>(label), size)
             , _selected_index(selected_index)
         { }
 

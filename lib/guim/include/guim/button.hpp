@@ -27,7 +27,7 @@ namespace guim
 
         template<typename TString, typename = tt::enable_if_stringish<TString>>
         button(TString&& text, ImVec2 size = ImVec2(0, 0))
-            : labeled_widget(text, size)
+            : labeled_widget(std::forward<TString>(text), size)
         { }
         
         void operator+=(button_click_callback_t);
