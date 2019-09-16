@@ -67,6 +67,7 @@ encode_window::encode_window(ImVec2 sz)
     {
         std::string key = xsteg::generate_thresholds_key(_th_editor->thresholds());
         _msgp_gen_key->set_text(std::move(key));
+        _msgp_gen_key->show();
     });
 }
 

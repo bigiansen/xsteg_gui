@@ -2,15 +2,18 @@
 
 #include <guim/popup.hpp>
 #include <guim/text.hpp>
+#include <guim/text_input.hpp>
 #include <guim/type_traits.hpp>
 #include <string>
+#include <variant>
 
 namespace guim
 {
     class msg_popup : public popup
     {
     protected:
-        guim::text* _text;
+        guim::text* _textw = nullptr;
+        guim::text_input* _textinputw = nullptr;
         bool _selectable = false;
 
     public:
@@ -22,14 +25,32 @@ namespace guim
             bool selectable = false,
             ImVec2 size = ImVec2(0, 0))
             : popup(tt::forward_stringish(label), size)
+            , _selectable(selectable)
         {
-            _text = add_widget<guim::text>(tt::forward_stringish(msg));
+            if(!selectable)
+            {
+                _textw = add_widget<guim::text>(tt::forward_stringish(msg));
+            }
+            else
+            {
+                _textinputw = add_widget<guim::text_input>("##msgpopup_txt_input");
+                _textinputw->set_text(tt::forward_stringish(msg));
+                _textinputw->readonly = true;
+            }
         }
 
         template<typename TString, typename = tt::enable_if_string<TString>>
         void set_text(TString&& txt)
         {
-            _text->set_text(tt::forward_stringish(txt));
+            if(_selectable)
+            {
+                _textinputw->set_text(tt::forward_stringish(txt));
+            }
+            else
+            {
+                _textw->set_text(tt::forward_stringish(txt));
+            }
+            
         }
     };
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <guim/color.hpp>
+#include <guim/type_traits.hpp>
 #include <guim/widget.hpp>
 #include <guim/traits/background_color.hpp>
 #include <guim/traits/foreground_color.hpp>
@@ -13,20 +14,22 @@ namespace guim
 	{
 	protected:
 		std::string _label;
-		std::string _text;
-		bool _readonly = false;
+		std::string _text;		
 
 	public:
+		bool readonly = false;
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
 		text_input(const std::string& label_id, size_t max_size = 255);
 
-		void readonly(bool readonly);
-		bool readonly();
-
 		std::string& text();
-		void text(const std::string& txt);
+
+		template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+		void set_text(TStr&& txt)
+		{
+			_text = tt::forward_stringish(txt);
+		}
 
 		void update() override;
 	};

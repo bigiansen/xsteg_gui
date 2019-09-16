@@ -65,7 +65,7 @@ void threshold_view::init_widgets()
 	_txt_bit_r->sameline = true;
 	_txt_bit_r->set_size(ImVec2(16, 0));
 	_txt_bit_r->background_color = COLOR_RED;
-	_txt_bit_r->text("-");
+	_txt_bit_r->set_text("-");
 
 	// [G]
 	std::string bit_g_label = "##bit_g_" + th_suffix;
@@ -73,7 +73,7 @@ void threshold_view::init_widgets()
 	_txt_bit_g->sameline = true;
 	_txt_bit_g->set_size(ImVec2(16, 0));
 	_txt_bit_g->background_color = COLOR_GREEN;
-	_txt_bit_g->text("-");
+	_txt_bit_g->set_text("-");
 
 	// [B]
 	std::string bit_b_label = "##bit_b_" + th_suffix;
@@ -81,7 +81,7 @@ void threshold_view::init_widgets()
 	_txt_bit_b->sameline = true;
 	_txt_bit_b->set_size(ImVec2(16, 0));
 	_txt_bit_b->background_color = COLOR_BLUE;
-	_txt_bit_b->text("-");
+	_txt_bit_b->set_text("-");
 
 	// [A]
 	std::string bit_a_label = "##bit_a_" + th_suffix;
@@ -89,7 +89,7 @@ void threshold_view::init_widgets()
 	_txt_bit_a->sameline = true;
 	_txt_bit_a->set_size(ImVec2(16, 0));
 	_txt_bit_a->background_color = COLOR_GRAY;
-	_txt_bit_a->text("-");
+	_txt_bit_a->set_text("-");
 
 	// -- Value slider --
 	std::string slider_label = "##value_slider_" + th_suffix;

@@ -15,11 +15,6 @@ namespace guim
 		return _text;
 	}
 
-	void text_input::text(const std::string& txt)
-	{
-		_text = txt;
-	}
-
 	void text_input::update()
 	{		
 		if(!enabled) { return; }
@@ -28,7 +23,7 @@ namespace guim
         foreground_color.push();
 
 		ImGuiInputTextFlags flags = 0;
-		if(_readonly)
+		if(readonly)
 		{
 			flags |= ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly;
 		}
