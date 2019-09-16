@@ -52,5 +52,7 @@ public:
 
     void update() override;
 
+    const std::vector<xsteg::availability_threshold>& thresholds();
+
 	void regenerate_thresholds();
 };

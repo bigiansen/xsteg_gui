@@ -28,6 +28,6 @@ namespace guim
             ImGui::EndPopup();
         }
 		background_color.pop();
-		foreground_color.pop();        
+		foreground_color.pop();
     }
 }
