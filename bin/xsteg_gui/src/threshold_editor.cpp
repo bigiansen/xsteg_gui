@@ -14,24 +14,24 @@ const static guim::color COLOR_BLUE(0.2F, 0.2F, 0.5F, 1.0F);
 const static guim::color COLOR_GRAY(0.3F, 0.3F, 0.3F, 1.0F);
 
 static std::array<std::string, 9> data_types = {
-    "VALUE_RED",    "VALUE_GREEN",  "VALUE_BLUE", 
-    "SATURATION",   "LUMINANCE",    "SATURATION",
-    "ALPHA",        "AVERAGE_RGBA", "AVERAGE_RGB"
+	"VALUE_RED",    "VALUE_GREEN",  "VALUE_BLUE", 
+	"SATURATION",   "LUMINANCE",    "SATURATION",
+	"ALPHA",        "AVERAGE_RGBA", "AVERAGE_RGB"
 };
 
 static const std::array<std::string, 2> directions = {
-    "UP",
-    "DOWN"
+	"UP",
+	"DOWN"
 };
 
 threshold_view::threshold_view(
-    const std::string& label,
-    xsteg::availability_threshold* thres,
-    int thres_idx,
-    ImVec2 sz)
-    : frame(label, sz)
-    , _threshold(thres)
-    , threshold_idx(thres_idx)
+	const std::string& label,
+	xsteg::availability_threshold* thres,
+	int thres_idx,
+	ImVec2 sz)
+	: frame(label, sz)
+	, _threshold(thres)
+	, threshold_idx(thres_idx)
 {
 	init_widgets();
 }
@@ -42,6 +42,7 @@ void threshold_view::init_widgets()
 
 	// -- Index label --
 	guim::text* idx_label = add_widget<guim::text>("[" + th_suffix + "]:");
+    idx_label->set_size(ImVec2(32, 0));
 	idx_label->sameline = true;
 
 	// -- Data type combo --
@@ -108,9 +109,27 @@ void threshold_view::init_widgets()
 }
 
 void threshold_view::update()
-{
-    container::update();
+{	
+	read_values();
+	container::update();
 	update_values();
+}
+
+void threshold_view::read_values()
+{
+	_combo_data_type->selected_index = (int)_threshold->data_type;
+	_combo_direction->selected_index = (int)_threshold->direction;
+
+	std::string bit_r = _threshold->bits.r < 0 ? "-" : std::to_string(_threshold->bits.r);
+	std::string bit_g = _threshold->bits.g < 0 ? "-" : std::to_string(_threshold->bits.g);
+	std::string bit_b = _threshold->bits.b < 0 ? "-" : std::to_string(_threshold->bits.b);
+	std::string bit_a = _threshold->bits.a < 0 ? "-" : std::to_string(_threshold->bits.a);	
+	_txt_bit_r->set_text(bit_r);
+	_txt_bit_g->set_text(bit_g);
+	_txt_bit_b->set_text(bit_b);
+	_txt_bit_a->set_text(bit_a);
+
+	_slider_value->value = _threshold->value;
 }
 
 void threshold_view::update_values()
@@ -118,9 +137,9 @@ void threshold_view::update_values()
 	using data_type_t = decltype(_threshold->data_type);
 	using direction_t = decltype(_threshold->direction);
 
-	_threshold->value = _slider_value->value();
-	_threshold->direction = static_cast<direction_t>(_combo_direction->selected_index());
-	_threshold->data_type = static_cast<data_type_t>(_combo_data_type->selected_index());
+	_threshold->value = _slider_value->value;
+	_threshold->direction = static_cast<direction_t>(_combo_direction->selected_index);
+	_threshold->data_type = static_cast<data_type_t>(_combo_data_type->selected_index);
 	
 	auto get_bit_value = [](const std::string& str) -> int
 	{
@@ -143,31 +162,31 @@ void threshold_view::update_values()
 }
 
 threshold_editor::threshold_editor(const std::string& label, ImVec2 size)
-    : frame(label, size)
+	: frame(label, size)
 { }
 
 void threshold_editor::update()
 {
-    for(auto& th_view : _threshold_views)
-    {
-        if(th_view->delete_pending)
-        {
-            int idx = th_view->threshold_idx;
-            _thresholds.erase(_thresholds.begin() + idx);
-            _regen = true;
-            break;
-        }
-    }
+	for(auto& th_view : _threshold_views)
+	{
+		if(th_view->delete_pending)
+		{
+			int idx = th_view->threshold_idx;
+			_thresholds.erase(_thresholds.begin() + idx);
+			_regen = true;
+			break;
+		}
+	}
 
-    if(_regen)
-    {
+	if(_regen)
+	{
 		regenerate_thresholds();
-    }
+	}
 
-    frame::update();
+	frame::update();
 }
 
-const std::vector<xsteg::availability_threshold>& threshold_editor::thresholds()
+std::vector<xsteg::availability_threshold>& threshold_editor::thresholds()
 {
 	return _thresholds;
 }

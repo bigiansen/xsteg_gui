@@ -19,6 +19,6 @@ namespace guim
         for(size_t i = 0; i < count; ++i)
         {
             _widgets[i]->update();
-        }        
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace guim
 		}
 		ImGui::Combo(
 			_label.c_str(),
-			&_selected_index,
+			&selected_index,
 			[](void* data, int idx, const char** out_text)
 			{
 				auto* ptr = reinterpret_cast<const std::vector<std::string>*>(data);
@@ -23,10 +23,5 @@ namespace guim
 				(int)_items.size()
 				);
 		if (sameline) { ImGui::SameLine(); }
-	}
-
-	int combo::selected_index()
-	{
-		return _selected_index;
 	}
 }

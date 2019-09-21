@@ -37,6 +37,7 @@ public:
 
 private:
 	void update_values();
+    void read_values();
 };
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
@@ -52,7 +53,7 @@ public:
 
     void update() override;
 
-    const std::vector<xsteg::availability_threshold>& thresholds();
+    std::vector<xsteg::availability_threshold>& thresholds();
 
 	void regenerate_thresholds();
 };

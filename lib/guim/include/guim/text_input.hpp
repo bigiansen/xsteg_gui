@@ -14,14 +14,17 @@ namespace guim
 	{
 	protected:
 		std::string _label;
-		std::string _text;		
+		std::string _text;
 
 	public:
 		bool readonly = false;
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
-		text_input(const std::string& label_id, size_t max_size = 255);
+		text_input(
+			const std::string& label_id, 
+			size_t max_size = 255, 
+			ImVec2 sz = ImVec2(0, 0));
 
 		std::string& text();
 

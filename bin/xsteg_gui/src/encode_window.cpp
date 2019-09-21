@@ -59,6 +59,12 @@ encode_window::encode_window(ImVec2 sz)
         true,
         ImVec2(0, 0)
     );
+
+    _msgp_res_key = add_widget<restore_key_popup>(
+        "Restore key", 
+        _th_editor->thresholds(),
+        ImVec2(240, 96)
+    );
     
     _btn_browse_ii->add_callback([&](){ _bp_input_image->show(); });
     _btn_browse_oi->add_callback([&](){ _bp_output_image->show(); });
@@ -68,6 +74,10 @@ encode_window::encode_window(ImVec2 sz)
         std::string key = xsteg::generate_thresholds_key(_th_editor->thresholds());
         _msgp_gen_key->set_text(std::move(key));
         _msgp_gen_key->show();
+    });
+    _btn_restore_key->add_callback([&]()
+    {
+        _msgp_res_key->show();
     });
 }
 

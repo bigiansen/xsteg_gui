@@ -4,6 +4,7 @@ SET(XSTEG_GUI_SOURCES
 	src/encode_window.cpp
 	src/main.cpp
 	src/main_window.cpp
+	src/restore_key_popup.cpp
 	src/threshold_editor.cpp
 )
 

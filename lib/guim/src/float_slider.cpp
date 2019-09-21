@@ -2,11 +2,6 @@
 
 namespace guim
 {
-    float float_slider::value()
-    {
-        return _value;
-    }
-
     void float_slider::update()
     {
 		if(!enabled) { return; }
@@ -15,7 +10,7 @@ namespace guim
         {
             ImGui::SetNextItemWidth(_size.x);
         }
-        ImGui::SliderFloat(_label.c_str(), &_value, _min_value, _max_value);
-        if(sameline) { ImGui::SameLine(); }        
+        ImGui::SliderFloat(_label.c_str(), &value, _min_value, _max_value);
+        if(sameline) { ImGui::SameLine(); }
     }
 }

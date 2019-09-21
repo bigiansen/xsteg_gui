@@ -18,7 +18,7 @@ namespace guim
         
 		background_color.push();
 		foreground_color.push();
-        if(ImGui::BeginPopupModal(_name.c_str()))
+        if(ImGui::BeginPopupModal(_name.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
         {
             container::update();
             if(ImGui::Button("Close"))
