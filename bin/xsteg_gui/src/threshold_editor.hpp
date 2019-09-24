@@ -15,20 +15,25 @@ class threshold_preview_popup : public guim::popup
 {
 private:
     xsteg::availability_threshold _threshold;
-    guim::image* _image;
+    guim::image* _image_widget;
+    std::unique_ptr<xsteg::image> _input_image;
+    bool _image_initialized = false;
 
 public:
     template<typename TStr, guim::tt::enable_if_stringish<TStr>>
     threshold_preview_popup(
-        TStr&& label, 
+        TStr&& label,
         xsteg::availability_threshold threshold,
         ImVec2 sz = ImVec2(0, 0))
         : popup(label, sz)
         , _threshold(threshold)
     { 
-        _image = add_widget<guim::image>()
+        _image_widget = add_widget<guim::image>("##img_thresh_preview" + label);
     }
-}
+
+    void set_input_image(const std::string& filename);
+    void update() override;
+};
 
 class threshold_view : public guim::frame
 {

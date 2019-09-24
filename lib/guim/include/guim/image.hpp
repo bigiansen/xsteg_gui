@@ -22,7 +22,11 @@ namespace guim
         virtual ~image();
 
         void load_from_file(const std::string& fname);
-        void load_from_image(const std::string& uid, uint8_t* data_rgba, int width, int height);
+        void load_from_image(
+            const std::string& uid, 
+            const uint8_t* data_rgba, 
+            int width, 
+            int height);
 
         void update() override;
     };

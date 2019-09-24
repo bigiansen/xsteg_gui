@@ -24,7 +24,7 @@ namespace guim
 
     void image::load_from_image(
         const std::string& uid, 
-        uint8_t* data_rgba, 
+        const uint8_t* data_rgba, 
         int width, 
         int height)
     {

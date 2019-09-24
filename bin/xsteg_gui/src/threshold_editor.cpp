@@ -24,6 +24,48 @@ static const std::array<std::string, 2> directions = {
 	"DOWN"
 };
 
+void threshold_preview_popup::set_input_image(const std::string& fname)
+{
+	_input_image = std::make_unique<xsteg::image>(fname);
+}
+
+void threshold_preview_popup::update()
+{
+	if(!enabled) { return; }
+	if(!_input_image) { return; }
+	if(!_image_initialized)
+	{
+		xsteg::image preview_img = xsteg::generate_visual_data_diff_image(
+			_input_image.get(),
+			_threshold.data_type,
+			_threshold.value,
+			_threshold.bits);
+
+		_image_widget->load_from_image(
+			"_th_preview_popup_",
+			preview_img.cdata(),
+			preview_img.width(),
+			preview_img.height());
+
+		_image_initialized = true;
+	}
+
+	background_color.push();
+	foreground_color.push();
+	if(ImGui::BeginPopupModal(_name.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		container::update();
+		if(ImGui::Button("Close"))
+		{
+			ImGui::CloseCurrentPopup();
+			_image_initialized = false;
+		}
+		ImGui::EndPopup();
+	}
+	background_color.pop();
+	foreground_color.pop();
+}
+
 threshold_view::threshold_view(
 	const std::string& label,
 	xsteg::availability_threshold* thres,
