@@ -39,6 +39,12 @@ encode_window::encode_window(ImVec2 sz)
 
     const ImVec2 browse_popup_size = ImVec2(_size.x * 0.8F, _size.y * 0.8F);
 
+	_ti_input_image->set_text_change_callback([&_th_editor](ImGuiInputTextCallbackData* data) -> int
+	{
+		_th_editor->set_input_image(std::string(data->Buf, data->BufSize));
+		return 0;
+	});
+
     _bp_input_image = add_widget<browse_popup>(
         "Browse##,ii", 
         browse_popup_mode::FILE_SELECT, 

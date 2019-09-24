@@ -15,6 +15,7 @@ namespace guim
 	protected:
 		std::string _label;
 		std::string _text;
+		ImGuiInputTextCallback _edit_callback = nullptr;
 
 	public:
 		bool readonly = false;
@@ -33,6 +34,8 @@ namespace guim
 		{
 			_text = tt::forward_stringish(txt);
 		}
+
+		void set_text_change_callback(ImGuiInputTextCallback cback) { _edit_callback = cback; }
 
 		void update() override;
 	};

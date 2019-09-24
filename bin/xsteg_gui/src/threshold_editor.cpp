@@ -68,10 +68,12 @@ void threshold_preview_popup::update()
 
 threshold_view::threshold_view(
 	const std::string& label,
+	threshold_editor* parent,
 	xsteg::availability_threshold* thres,
 	int thres_idx,
 	ImVec2 sz)
 	: frame(label, sz)
+	, _parent(parent)
 	, _threshold(thres)
 	, threshold_idx(thres_idx)
 {
@@ -141,16 +143,24 @@ void threshold_view::init_widgets()
 	_slider_value->sameline = true;
 
 	// -- Preview button --
-	std::string button_txt = ("Preview##" + std::to_string(threshold_idx));
-	_button_preview = add_widget<guim::button>(button_txt, ImVec2(32, 0));
+	const std::string preview_button_txt = ("Preview##" + std::to_string(threshold_idx));
+	_button_preview = add_widget<guim::button>(preview_button_txt, ImVec2(32, 0));
+
+	static threshold_preview_popup* prev_pp = add_widget<threshold_preview_popup>(
+		preview_button_txt,
+		this,
+		*_threshold
+	);
+
 	_button_preview->add_callback([&]()
-	{
-		
+	{				
+		prev_pp->set_input_image(_parent->input_image());
+		prev_pp->show();
 	});
 	
 	// -- Remove button --
-	std::string button_txt = (" - ##" + std::to_string(threshold_idx));
-	_button_remove = add_widget<guim::button>(button_txt, ImVec2(32, 0));
+	std::string remove_button_txt = (" - ##" + std::to_string(threshold_idx));
+	_button_remove = add_widget<guim::button>(remove_button_txt, ImVec2(32, 0));
 	_button_remove->background_color = guim::color(0.8F, 0.25F, 0.25F, 1);
 	_button_remove->add_callback([&]()
 	{
@@ -251,7 +261,7 @@ void threshold_editor::regenerate_thresholds()
 	for (auto& th : _thresholds)
 	{
 		_threshold_views.push_back(
-			add_widget<threshold_view>("##thres_1234" + std::to_string(idx), &th, idx)
+			add_widget<threshold_view>("##thres_1234" + std::to_string(idx), this, &th, idx)
 		);
 		add_widget<guim::separator>();
 		++idx;

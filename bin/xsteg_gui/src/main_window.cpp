@@ -53,7 +53,7 @@ void main_window::update()
             {
                 encode_win->enabled = true;
             }
-        });
-        window::update();
+        });        
     }
+	window::update();
 }

@@ -131,7 +131,8 @@ void browse_popup::setup_directory_widgets()
 {
     for(auto& dir : _current_dirs)
     {
-        auto* icon = add_widget<guim::image>("##icond", "res/folder.png", ImVec2(16, 16));
+        auto* icon = add_widget<guim::image>("##icond", ImVec2(16, 16));
+		icon->load_from_file("res/folder.png");
         icon->sameline = true;
         auto* dir_entry = add_widget<guim::selectable>(dir.filename().u8string());
         dir_entry->add_callback([&]()
@@ -146,7 +147,8 @@ void browse_popup::setup_file_widgets()
 {    
     for(auto& file : _current_files)
     {
-        auto* icon = add_widget<guim::image>("##iconf", "res/file.png", ImVec2(16, 16));
+        auto* icon = add_widget<guim::image>("##iconf", ImVec2(16, 16));
+		icon->load_from_file("res/file.png");
         icon->sameline = true;
         auto* ptr = add_widget<guim::selectable>(file.filename().u8string());
         ptr->background_color = guim::color(0, 0, 0, 0);

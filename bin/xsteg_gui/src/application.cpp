@@ -23,6 +23,6 @@ void application::start()
     mwin.set_position(ImVec2(200, 300));
     _ctx->start([&]()
     {
-        mwin.update();
+        mwin.update();		
     });
 }

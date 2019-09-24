@@ -32,7 +32,7 @@ namespace guim
 		{
 			ImGui::SetNextItemWidth(_size.x);
 		}
-		ImGui::InputText(_label.c_str(), _text.data(), _text.length() + 1, flags);
+		ImGui::InputText(_label.c_str(), _text.data(), _text.length() + 1, flags, _edit_callback);
 
 		background_color.pop();
         foreground_color.pop();
