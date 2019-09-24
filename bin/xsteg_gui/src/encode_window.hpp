@@ -26,6 +26,7 @@ private:
     browse_popup* _bp_data_file = nullptr;
     guim::msg_popup* _msgp_gen_key = nullptr;
     restore_key_popup* _msgp_res_key = nullptr;
+    guim::button* _btn_encode = nullptr;
     
 public:
     encode_window(ImVec2 size = ImVec2(0, 0));

@@ -50,7 +50,27 @@ namespace guim
             {
                 _textw->set_text(tt::forward_stringish(txt));
             }
-            
+        }
+
+        void show() override
+        {
+            popup::show();
+        }
+
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+        void show(TStr&& text)
+        {
+            set_text(tt::forward_stringish(text));
+            popup::show();
+        }
+
+        template<typename TStr0, typename TStr1, 
+            typename = tt::enable_if_stringish<TStr0, TStr1>>
+        void show(TStr0&& title, TStr1&& text)
+        {
+            set_text(tt::forward_stringish(text));
+            _name = tt::forward_stringish(title);
+            popup::show();
         }
     };
 }
