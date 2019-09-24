@@ -4,9 +4,31 @@
 #include <guim/combo.hpp>
 #include <guim/float_slider.hpp>
 #include <guim/frame.hpp>
+#include <guim/image.hpp>
+#include <guim/popup.hpp>
 #include <guim/text_input.hpp>
+#include <guim/type_traits.hpp>
 #include <xsteg/availability_map.hpp>
 #include <vector>
+
+class threshold_preview_popup : public guim::popup
+{
+private:
+    xsteg::availability_threshold _threshold;
+    guim::image* _image;
+
+public:
+    template<typename TStr, guim::tt::enable_if_stringish<TStr>>
+    threshold_preview_popup(
+        TStr&& label, 
+        xsteg::availability_threshold threshold,
+        ImVec2 sz = ImVec2(0, 0))
+        : popup(label, sz)
+        , _threshold(threshold)
+    { 
+        _image = add_widget<guim::image>()
+    }
+}
 
 class threshold_view : public guim::frame
 {

@@ -8,32 +8,17 @@ namespace guim
 
     texture_storage::iter texture_storage::emplace_from_file(const std::string& filename)
     {
-        int w, h, ch;
-        uint8_t* data = stbi_load(filename.c_str(), &w, &h, &ch, 4);
+        texture_info info;
+        uint8_t* data = stbi_load(
+            filename.c_str(), 
+            &info.width, 
+            &info.height, 
+            &info.channels, 
+            4);
 
         if(data == nullptr)
         {
             throw std::invalid_argument("Could not load image: " + filename);
-        }
-
-        emplace_from_image(filename, data, w, h);
-        stbi_image_free(data);
-    }
-
-    texture_storage::iter texture_storage::emplace_from_image(
-        const std::string& id,
-        uint8_t* data_rgba, 
-        int width, 
-        int height)
-    {
-        texture_info info;
-        info.width = width;
-        info.height = height;
-        info.channels = 4;
-
-        if(data_rgba == nullptr)
-        {
-            throw std::invalid_argument("Invalid NULL data pointer");
         }
 
         glGenTextures(1, &info.tex_id);
@@ -48,9 +33,10 @@ namespace guim
             0, 
             GL_RGBA, 
             GL_UNSIGNED_BYTE, 
-            data_rgba);
-        
-        auto [iter, ok] = _tex_dict.emplace(id, info);
+            data);
+            
+        stbi_image_free(data);
+        auto [iter, ok] = _tex_dict.emplace(info.tex_id, info);        
         return iter;
     }
 
