@@ -40,6 +40,7 @@ void browse_popup::update()
             {
                 setup_directory_widgets();
                 setup_file_widgets();
+                ImGui::SetScrollY(0);
             }
             ImGui::EndChild();
         }
