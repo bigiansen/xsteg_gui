@@ -6,6 +6,7 @@
 #include <guim/traits/background_color.hpp>
 #include <guim/traits/foreground_color.hpp>
 #include <xsteg/availability_map.hpp>
+#include <functional>
 
 class restore_key_popup : public guim::container
 {
@@ -16,6 +17,7 @@ private:
     guim::traits::background_color background_color;
     guim::traits::foreground_color foreground_color;
     threshold_container_t& _thresholds;
+    std::function<void()> _callback;
 
 public:
     template<typename TStr, typename = guim::tt::enable_if_stringish<TStr>>
@@ -29,6 +31,8 @@ public:
     {
         init_widgets();
     }
+
+    void set_callback(std::function<void()>);
 
     void update() override;
     void show();

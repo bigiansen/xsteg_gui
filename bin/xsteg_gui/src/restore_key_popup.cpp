@@ -12,6 +12,11 @@ void restore_key_popup::show()
     ImGui::OpenPopup(_label.c_str());
 }
 
+void restore_key_popup::set_callback(std::function<void()> cback)
+{
+    _callback = cback;
+}
+
 void restore_key_popup::update()
 {
     if(!enabled) { return; }

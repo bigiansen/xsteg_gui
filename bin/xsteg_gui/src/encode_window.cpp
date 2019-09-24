@@ -70,6 +70,10 @@ encode_window::encode_window(ImVec2 sz)
         _th_editor->thresholds(),
         ImVec2(240, 96)
     );
+    _msgp_res_key->set_callback([&]()
+    {
+        _th_editor->regenerate_thresholds();
+    });
     
     _btn_browse_ii->add_callback([&](){ _bp_input_image->show(); });
     _btn_browse_oi->add_callback([&](){ _bp_output_image->show(); });

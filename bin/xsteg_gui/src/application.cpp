@@ -20,7 +20,7 @@ application::application(int w, int h, const std::string& title)
 void application::start()
 {
     static main_window mwin(_appwnd.get());
-    mwin.set_position(ImVec2(2000, 300));
+    mwin.set_position(ImVec2(200, 300));
     _ctx->start([&]()
     {
         mwin.update();
