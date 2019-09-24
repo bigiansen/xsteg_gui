@@ -25,8 +25,18 @@ namespace guim
 
     public:
         iter emplace_from_file(const std::string& filename);
+
+        iter emplace_from_image(
+            const std::string& id, 
+            uint8_t* data_rgba, 
+            int width, 
+            int height);
+
         bool contains(const std::string& filename);
+
         texture_id_t get_id(const std::string& filename);
+        
+        void erase(const std::string& filename);
     };
 
     extern texture_storage global_tex_storage;

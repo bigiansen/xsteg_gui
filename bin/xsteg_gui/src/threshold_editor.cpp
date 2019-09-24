@@ -98,6 +98,14 @@ void threshold_view::init_widgets()
 	_slider_value->set_size(ImVec2(128, 0));
 	_slider_value->sameline = true;
 
+	// -- Preview button --
+	std::string button_txt = ("Preview##" + std::to_string(threshold_idx));
+	_button_preview = add_widget<guim::button>(button_txt, ImVec2(32, 0));
+	_button_preview->add_callback([&]()
+	{
+		
+	});
+	
 	// -- Remove button --
 	std::string button_txt = (" - ##" + std::to_string(threshold_idx));
 	_button_remove = add_widget<guim::button>(button_txt, ImVec2(32, 0));

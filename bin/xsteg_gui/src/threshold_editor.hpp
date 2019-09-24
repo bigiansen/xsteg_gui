@@ -19,6 +19,7 @@ private:
 	guim::text_input* _txt_bit_b = nullptr;
 	guim::text_input* _txt_bit_a = nullptr;
 	guim::float_slider* _slider_value = nullptr;
+    guim::button* _button_preview = nullptr;
 	guim::button* _button_remove = nullptr;
 
 public:
