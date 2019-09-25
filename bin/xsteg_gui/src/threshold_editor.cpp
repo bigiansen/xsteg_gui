@@ -37,15 +37,16 @@ void threshold_preview_popup::update()
 	{
 		xsteg::image preview_img = xsteg::generate_visual_data_diff_image(
 			_input_image.get(),
-			_threshold.data_type,
-			_threshold.value,
-			_threshold.bits);
+			_threshold->data_type,
+			_threshold->value,
+			_threshold->bits);
 
 		_image_widget->load_from_image(
 			"_th_preview_popup_",
 			preview_img.cdata(),
 			preview_img.width(),
 			preview_img.height());
+		_image_widget->set_size(ImVec2(400, 400));
 
 		_image_initialized = true;
 	}
@@ -146,16 +147,16 @@ void threshold_view::init_widgets()
 	const std::string preview_button_txt = ("Preview##" + std::to_string(threshold_idx));
 	_button_preview = add_widget<guim::button>(preview_button_txt, ImVec2(32, 0));
 
-	static threshold_preview_popup* prev_pp = add_widget<threshold_preview_popup>(
+	_prev_pp = add_widget<threshold_preview_popup>(
 		preview_button_txt,
 		this,
-		*_threshold
+		_threshold
 	);
 
 	_button_preview->add_callback([&]()
-	{				
-		prev_pp->set_input_image(_parent->input_image());
-		prev_pp->show();
+	{
+		_prev_pp->set_input_image(_parent->input_image());
+		_prev_pp->show();
 	});
 	
 	// -- Remove button --

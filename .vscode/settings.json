@@ -1,7 +1,7 @@
 {
     "files.associations": {
-        "*.cpp": "cpp",
         "*.inl": "cpp",
+        "*.cpp": "cpp",
         "string": "cpp",
         "xstring": "cpp",
         "algorithm": "cpp",
@@ -78,6 +78,7 @@
         "xmemory0": "cpp",
         "codecvt": "cpp",
         "filesystem": "cpp",
-        "xthread": "cpp"
+        "xthread": "cpp",
+        "concepts": "cpp"
     }
 }

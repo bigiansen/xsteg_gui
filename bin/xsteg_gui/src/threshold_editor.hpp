@@ -18,7 +18,7 @@ class threshold_preview_popup : public guim::popup
 {
 private:
 	threshold_view* _parent = nullptr;
-    xsteg::availability_threshold _threshold;
+    xsteg::availability_threshold* _threshold;
     guim::image* _image_widget;
     std::unique_ptr<xsteg::image> _input_image;
     bool _image_initialized = false;
@@ -28,7 +28,7 @@ public:
 	threshold_preview_popup(
 		TStr&& label,
 		threshold_view* parent,
-        xsteg::availability_threshold threshold,
+        xsteg::availability_threshold* threshold,
         ImVec2 sz = ImVec2(0, 0))
         : popup(label, sz)
 		, _parent(parent)
@@ -55,6 +55,7 @@ private:
 	guim::float_slider* _slider_value = nullptr;
     guim::button* _button_preview = nullptr;
 	guim::button* _button_remove = nullptr;
+    threshold_preview_popup* _prev_pp = nullptr;
 
 public:
     bool delete_pending = false;
