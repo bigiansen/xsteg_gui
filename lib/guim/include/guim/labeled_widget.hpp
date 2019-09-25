@@ -12,18 +12,10 @@ namespace guim
 		std::string _label;
 
 	public:
-		template<typename TString, typename = tt::enable_if_stringish<TString>>
-		labeled_widget(TString&& label, ImVec2 size = ImVec2(0, 0))
+		template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+		labeled_widget(TStr&& label, ImVec2 size = ImVec2(0, 0))
 			: widget(size)
-		{ 
-			if constexpr (tt::is_cstring<TString>)
-			{
-				_label = std::string(std::forward<TString>(label));
-			}
-			else
-			{
-				_label = std::forward<TString>(label);
-			}
-		}
+			, _label(std::forward<TStr>(label))
+		{ }
 	};
 }

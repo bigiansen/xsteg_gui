@@ -3,11 +3,6 @@
 
 namespace guim
 {
-    image::image(const std::string& label, ImVec2 sz)
-        : widget(sz)
-        , _label(label)
-    { }
-
     image::~image()
     {
         if(_needs_ogl_cleanup)
@@ -23,8 +18,7 @@ namespace guim
     }
 
     void image::load_from_image(
-        const std::string& uid, 
-        const uint8_t* data_rgba, 
+        const uint8_t* data_rgba,
         int width, 
         int height)
     {

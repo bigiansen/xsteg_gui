@@ -2,11 +2,6 @@
 
 namespace guim
 {
-    selectable::selectable(const std::string& label)
-        : widget(ImVec2(0, 0))
-        , _label(label)
-    { }
-
     void selectable::update()
     {
 		if(!enabled) { return; }

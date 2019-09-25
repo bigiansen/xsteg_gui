@@ -2,11 +2,6 @@
 
 namespace guim
 {
-    window::window(const std::string& name, ImVec2 size)
-        : _name(name)
-        , container(size)
-    { }
-
     void window::set_position(ImVec2 pos)
     {
         _position = pos;
@@ -39,12 +34,12 @@ namespace guim
             ImGui::SetNextWindowSize(_size);
         }
             
-        ImGui::Begin(_name.c_str(), NULL, flags);
+        ImGui::Begin(_label.c_str(), NULL, flags);
         {
             _current_window_sz = ImGui::GetWindowSize();
             if(_position) { ImGui::SetWindowPos(*_position); }
             container::update();
         }
-        ImGui::End();        
+        ImGui::End();
     }
 }

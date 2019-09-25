@@ -25,9 +25,9 @@ namespace guim
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
-        template<typename TString, typename = tt::enable_if_stringish<TString>>
-        button(TString&& text, ImVec2 size = ImVec2(0, 0))
-            : labeled_widget(std::forward<TString>(text), size)
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+        button(TStr&& text, ImVec2 size = ImVec2(0, 0))
+            : labeled_widget(std::forward<TStr>(text), size)
         { }
         
         void operator+=(button_click_callback_t);

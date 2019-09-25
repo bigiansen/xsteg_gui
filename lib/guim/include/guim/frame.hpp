@@ -1,6 +1,7 @@
 #pragma once
 
 #include <guim/container.hpp>
+#include <guim/type_traits.hpp>
 #include <string>
 
 namespace guim
@@ -8,12 +9,17 @@ namespace guim
     class frame : public container
     {
     private:
-        std::string _name;
+        std::string _label;
 
     public:
 		bool border_enabled = false;
 
-        frame(const std::string& name, ImVec2 size = ImVec2(0, 0));
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+        frame(TStr&& label, ImVec2 size = ImVec2(0, 0))
+            : container(size)
+            , _label(std::forward<TStr>(label))
+        { }
+        
         void update() override;
     };
 }

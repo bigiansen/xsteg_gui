@@ -15,11 +15,13 @@ namespace guim
     public:  
         container(ImVec2 size = ImVec2(0, 0));
 
-        template<typename TWidget, typename... TArgs, typename = std::enable_if_t<std::is_base_of_v<widget, TWidget>>>        
+        template<typename TWidget, typename... TArgs, 
+            typename = std::enable_if_t<std::is_base_of_v<widget, TWidget>>>
         TWidget* add_widget(TArgs&&... args)
         {
-            auto& ref = _widgets.emplace_back(std::make_unique<TWidget>(std::forward<TArgs>(args)...));
-            return dynamic_cast<TWidget*>(ref.get());
+            auto& ref = _widgets.emplace_back(
+                std::make_unique<TWidget>(std::forward<TArgs>(args)...));
+            return static_cast<TWidget*>(ref.get());
         }
 
         void clear_widgets();

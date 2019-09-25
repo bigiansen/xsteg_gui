@@ -44,17 +44,4 @@ namespace guim::tt
 
     template<typename T, typename TElem>
     constexpr bool is_iterable_of = is_iterable<T>::value && is_same_decay<decltype(*(std::declval<T>().begin())), TElem>;
-
-    template<typename T, typename = enable_if_stringish<T>>
-    std::string forward_stringish(T&& str)
-    {
-        if constexpr(is_cstring<T>)
-        {
-            return std::string(str);
-        }
-        else
-        {
-            return std::forward<std::string>(str);
-        }
-    }
 }

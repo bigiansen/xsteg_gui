@@ -2,14 +2,9 @@
 
 namespace guim
 {
-    popup::popup(const std::string& title_label, ImVec2 size)
-        : container(size)
-        , _name(title_label)
-    { }
-
     void popup::show()
     {
-        ImGui::OpenPopup(_name.c_str());
+        ImGui::OpenPopup(_label.c_str());
     }
 
     void popup::update()
@@ -18,7 +13,7 @@ namespace guim
         
 		background_color.push();
 		foreground_color.push();
-        if(ImGui::BeginPopupModal(_name.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+        if(ImGui::BeginPopupModal(_label.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
         {
             container::update();
             if(ImGui::Button("Close"))

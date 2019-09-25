@@ -42,7 +42,6 @@ void threshold_preview_popup::update()
 			_threshold->bits);
 
 		_image_widget->load_from_image(
-			"_th_preview_popup_",
 			preview_img.cdata(),
 			preview_img.width(),
 			preview_img.height());
@@ -53,7 +52,7 @@ void threshold_preview_popup::update()
 
 	background_color.push();
 	foreground_color.push();
-	if(ImGui::BeginPopupModal(_name.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if(ImGui::BeginPopupModal(_label.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		container::update();
 		if(ImGui::Button("Close"))

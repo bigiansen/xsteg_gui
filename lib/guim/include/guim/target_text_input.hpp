@@ -19,13 +19,13 @@ namespace guim
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
-        template<typename TString, typename = tt::enable_if_stringish<TString>>
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
         target_text_input(
-            TString&& label, 
+            TStr&& label, 
             std::string* target,
             size_t max_len, 
             ImVec2 size = ImVec2(0, 0))
-            : labeled_widget(std::forward<TString>(label), size)
+            : labeled_widget(std::forward<TStr>(label), size)
             , _target(target)
             , _max_len(max_len)
         { }

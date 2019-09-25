@@ -25,10 +25,12 @@ namespace guim
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
-		text_input(
-			const std::string& label_id, 
-			size_t max_size = 255, 
-			ImVec2 sz = ImVec2(0, 0));
+		template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+		text_input(TStr&& label, size_t max_str_sz = 255, ImVec2 sz = ImVec2(0, 0))
+			: widget(sz)
+			, _label(std::forward<TStr>(label))
+			, _text(max_str_sz, '\0')
+		{ }
 
 		std::string& text();
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <guim/type_traits.hpp>
 #include <guim/widget.hpp>
 #include <guim/traits/background_color.hpp>
 #include <guim/traits/foreground_color.hpp>
@@ -19,7 +20,11 @@ namespace guim
 		traits::background_color background_color;
 		traits::foreground_color foreground_color;
 
-        selectable(const std::string& label);
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+        selectable(TStr&& label)
+            : _label(label)
+        { }
+
         virtual void update() override;
 
         void operator+=(std::function<void()> cback);

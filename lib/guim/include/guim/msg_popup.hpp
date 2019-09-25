@@ -24,31 +24,31 @@ namespace guim
             TStr1&& msg,
             bool selectable = false,
             ImVec2 size = ImVec2(0, 0))
-            : popup(tt::forward_stringish(label), size)
+            : popup(std::forward<TStr0>(label), size)
             , _selectable(selectable)
         {
             if(!selectable)
             {
-                _textw = add_widget<guim::text>(tt::forward_stringish(msg));
+                _textw = add_widget<guim::text>(std::forward<TStr0>);
             }
             else
             {
                 _textinputw = add_widget<guim::text_input>("##msgpopup_txt_input");
-                _textinputw->set_text(tt::forward_stringish(msg));
+                _textinputw->set_text(std::forward<TStr0>);
                 _textinputw->readonly = true;
             }
         }
 
-        template<typename TString, typename = tt::enable_if_string<TString>>
-        void set_text(TString&& txt)
+        template<typename TStr, typename = tt::enable_if_string<TStr>>
+        void set_text(TStr&& txt)
         {
             if(_selectable)
             {
-                _textinputw->set_text(tt::forward_stringish(txt));
+                _textinputw->set_text(std::forward<TStr>(txt));
             }
             else
             {
-                _textw->set_text(tt::forward_stringish(txt));
+                _textw->set_text(std::forward<TStr>(txt));
             }
         }
 
@@ -60,7 +60,7 @@ namespace guim
         template<typename TStr, typename = tt::enable_if_stringish<TStr>>
         void show(TStr&& text)
         {
-            set_text(tt::forward_stringish(text));
+            set_text(std::forward<TStr>(text));
             popup::show();
         }
 
@@ -68,8 +68,8 @@ namespace guim
             typename = tt::enable_if_stringish<TStr0, TStr1>>
         void show(TStr0&& title, TStr1&& text)
         {
-            set_text(tt::forward_stringish(text));
-            _name = tt::forward_stringish(title);
+            set_text(std::forward<TStr0>(text));
+            _name = std::forward<TStr1>(title);
             popup::show();
         }
     };

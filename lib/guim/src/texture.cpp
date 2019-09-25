@@ -36,7 +36,7 @@ namespace guim
             data);
             
         stbi_image_free(data);
-        auto [iter, ok] = _tex_dict.emplace(filename, info);        
+        auto [iter, ok] = _tex_dict.emplace(filename, info);
         return iter;
     }
 
@@ -65,6 +65,5 @@ namespace guim
         }
         auto [name, info] = *(global_tex_storage.emplace_from_file(filename));
         return info.tex_id;
-    }
-    
+    }    
 }

@@ -5,12 +5,6 @@
 
 namespace guim
 {
-	text_input::text_input(const std::string& label_id, size_t max_size, ImVec2 sz)
-		: widget(sz)
-		, _label(label_id)
-		, _text(max_size, '\0')
-	{ }
-
 	std::string& text_input::text()
 	{
 		return _text;
