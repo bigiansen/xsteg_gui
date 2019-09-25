@@ -29,17 +29,17 @@ namespace guim
         {
             if(!selectable)
             {
-                _textw = add_widget<guim::text>(std::forward<TStr0>);
+                _textw = add_widget<guim::text>(std::forward<TStr1>(msg));
             }
             else
             {
                 _textinputw = add_widget<guim::text_input>("##msgpopup_txt_input");
-                _textinputw->set_text(std::forward<TStr0>);
+                _textinputw->set_text(std::forward<TStr1>(msg));
                 _textinputw->readonly = true;
             }
         }
 
-        template<typename TStr, typename = tt::enable_if_string<TStr>>
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
         void set_text(TStr&& txt)
         {
             if(_selectable)

@@ -37,7 +37,7 @@ namespace guim
 		template<typename TStr, typename = tt::enable_if_stringish<TStr>>
 		void set_text(TStr&& txt)
 		{
-			_text = tt::forward_stringish(txt);
+			_text = std::forward<TStr>(txt);
 		}
 
 		void set_text_change_callback(text_change_callback_t cback) 

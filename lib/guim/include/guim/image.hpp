@@ -17,7 +17,7 @@ namespace guim
 
     public:
         template<typename TStr, typename = tt::enable_if_stringish<TStr>>
-        image(const TStr&& label, ImVec2 sz = ImVec2(0, 0))
+        image(TStr&& label, ImVec2 sz = ImVec2(0, 0))
             : _label(std::forward<TStr>(label))
         { }
 

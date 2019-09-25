@@ -17,10 +17,10 @@ namespace guim
 
         text(const std::string& text, ImVec2 size = ImVec2(0, 0));
 
-        template<typename TString, typename = tt::enable_if_stringish<TString>>
-        void set_text(TString&& txt)
+        template<typename TStr, typename = tt::enable_if_stringish<TStr>>
+        void set_text(TStr&& txt)
         {
-            _text = tt::forward_stringish(txt);
+            _text = std::forward<TStr>(txt);
         }
 
         virtual void update() override;

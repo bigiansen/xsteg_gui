@@ -26,7 +26,7 @@ public:
         threshold_container_t& target, 
         ImVec2 sz = ImVec2(0, 0))
         : container(sz)
-        , _label(guim::tt::forward_stringish(label))
+        , _label(std::forward<TStr>(label))
         , _thresholds(target)
     {
         init_widgets();
